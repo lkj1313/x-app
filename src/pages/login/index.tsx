@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { login } from "../../store/authSlice";
 import Loading from "../../components/loading";
 import SignupModal from "./components/signupModal";
+import useViewportHeight from "../../components/useViewportHeight";
 
 export default function LoginPage() {
   const [darkMode, setDarkMode] = useState(false);
@@ -57,9 +58,14 @@ export default function LoginPage() {
   };
   const handleSignUpClose = () => setShowSignUp(false);
   const handleSignUpShow = () => setShowSignUp(true);
+  useViewportHeight();
 
   if (loading) {
-    return <Loading />; // 로딩 중일 때 로딩 컴포넌트 표시
+    return (
+      <div style={{ height: "calc(var(--vh) * 100)", alignItems: "center" }}>
+        <Loading />
+      </div>
+    ); // 로딩 중일 때 로딩 컴포넌트 표시
   }
 
   return (

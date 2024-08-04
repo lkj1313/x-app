@@ -26,7 +26,7 @@ const SignupModal: React.FC<SignupModalProps> = ({
           bottom: "auto",
           marginRight: "-50%",
           transform: "translate(-50%, -50%)",
-          height: "500px",
+          height: "400px",
           width: "400px",
         },
       }}
@@ -99,9 +99,10 @@ const SignupModal: React.FC<SignupModalProps> = ({
               height: "50px",
               borderRadius: "30px",
               backgroundColor: "rgb(29, 155, 240)",
+              cursor: "pointer",
             }}
           >
-            제출
+            다음
           </button>
         </form>
       </div>

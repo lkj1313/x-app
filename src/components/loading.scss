@@ -1,0 +1,15 @@
+.loading-page {
+  height: 100%;
+  width: 100%;
+  background-color: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.loading-page {
+  img {
+    width: 100px;
+    height: 130px;
+  }
+}

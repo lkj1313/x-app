@@ -14,11 +14,13 @@ import { login } from "../../../store/authSlice";
 interface SignupModalProps {
   isOpen: boolean;
   onRequestClose: () => void;
+  setLoading: (loading: boolean) => void; // 로딩 상태 업데이트 함수 추가
 }
 
 const SignupModal: React.FC<SignupModalProps> = ({
   isOpen,
   onRequestClose,
+  setLoading,
 }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -65,6 +67,7 @@ const SignupModal: React.FC<SignupModalProps> = ({
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
     if (
       !emailError &&
       !passwordError &&
@@ -76,6 +79,7 @@ const SignupModal: React.FC<SignupModalProps> = ({
       nickname
     ) {
       try {
+        setLoading(true);
         // Firebase Authentication을 통한 회원가입
         const userCredential = await createUserWithEmailAndPassword(
           auth,
@@ -96,16 +100,14 @@ const SignupModal: React.FC<SignupModalProps> = ({
           login({ email: user.email, uid: user.uid, nickname: nickname })
         );
 
-        alert("회원가입 완료!");
-
         onRequestClose(); // 회원가입 성공 시 모달 닫기
         navigate("/");
       } catch (error: any) {
         console.error("회원가입 실패", error);
-        setSignupError("회원가입 중 오류가 발생했습니다.");
+        alert("회원가입 중 오류가 발생했습니다.");
       }
     } else {
-      setSignupError("입력란을 모두 제대로 입력해주세요");
+      alert("입력란을 모두 제대로 입력해주세요");
     }
   };
   return (

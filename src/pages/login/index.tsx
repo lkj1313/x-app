@@ -84,8 +84,13 @@ export default function LoginPage() {
       <SignupModal
         isOpen={showSignUp}
         onRequestClose={handleSignUpClose}
+        setLoading={setLoading}
       />{" "}
-      <LoginModal isOpen={showLogin} onRequestClose={handleLoginClose} />
+      <LoginModal
+        isOpen={showLogin}
+        onRequestClose={handleLoginClose}
+        setLoading={setLoading}
+      />
       <div className="login-page">
         <div className="login-page__container">
           <div className="login-page__left-container">

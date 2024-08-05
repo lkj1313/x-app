@@ -1,34 +1,23 @@
-import { auth } from "../../../../firebase";
-import { doc, getDoc, setDoc } from "firebase/firestore";
 import React, { useState, useEffect } from "react";
 import ReactModal from "react-modal";
+import { signInWithEmailAndPassword } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
-import { db } from "../../../../firebase";
-import {
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-} from "firebase/auth";
 import { useDispatch } from "react-redux";
 import { login } from "../../../store/authSlice";
+import { auth, db } from "../../../../firebase";
+import { doc, getDoc } from "firebase/firestore";
 
-interface SignupModalProps {
+interface LoginModalProps {
   isOpen: boolean;
   onRequestClose: () => void;
 }
 
-const SignupModal: React.FC<SignupModalProps> = ({
-  isOpen,
-  onRequestClose,
-}) => {
+const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onRequestClose }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [nickname, setNickname] = useState("");
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
-  const [confirmPasswordError, setConfirmPasswordError] = useState("");
-  const [nicknameError, setNicknameError] = useState("");
-  const [signupError, setSignupError] = useState("");
+  const [loginError, setLoginError] = useState("");
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -39,80 +28,73 @@ const SignupModal: React.FC<SignupModalProps> = ({
       setEmailError("");
     }
 
-    if (
-      password &&
-      !/^(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{6,}$/.test(password)
-    ) {
-      setPasswordError(
-        "비밀번호는 6자 이상이어야 하며, 특수문자를 포함해야 합니다."
-      );
+    if (password && password.length < 6) {
+      setPasswordError("비밀번호는 6자 이상이어야 합니다.");
     } else {
       setPasswordError("");
     }
-
-    if (confirmPassword && password !== confirmPassword) {
-      setConfirmPasswordError("비밀번호가 일치하지 않습니다.");
-    } else {
-      setConfirmPasswordError("");
-    }
-
-    if (nickname && nickname.length < 1) {
-      setNicknameError("닉네임은 한 글자 이상이어야 합니다.");
-    } else {
-      setNicknameError("");
-    }
-  }, [email, password, confirmPassword, nickname]);
+  }, [email, password]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (
-      !emailError &&
-      !passwordError &&
-      !confirmPasswordError &&
-      !nicknameError &&
-      email &&
-      password &&
-      confirmPassword &&
-      nickname
-    ) {
+    if (!emailError && !passwordError && email && password) {
       try {
-        // Firebase Authentication을 통한 회원가입
-        const userCredential = await createUserWithEmailAndPassword(
+        // Firebase Authentication을 통한 로그인
+        const userCredential = await signInWithEmailAndPassword(
           auth,
           email,
           password
         );
         const user = userCredential.user;
 
-        // Firestore에 사용자 데이터 저장
-        await setDoc(doc(db, "users", user.uid), {
-          uid: user.uid,
-          email: user.email,
-          nickname: nickname,
-        });
+        // Firestore에서 사용자 데이터 가져오기
+        const userDoc = await getDoc(doc(db, "users", user.uid));
+        if (userDoc.exists()) {
+          const userData = userDoc.data();
 
-        // Redux 상태 업데이트
-        dispatch(
-          login({ email: user.email, uid: user.uid, nickname: nickname })
-        );
+          // Redux 상태 업데이트
+          dispatch(
+            login({
+              email: userData.email,
+              uid: user.uid,
+              nickname: userData.nickname,
+            })
+          );
 
-        alert("회원가입 완료!");
+          alert("로그인 완료!");
 
-        onRequestClose(); // 회원가입 성공 시 모달 닫기
-        navigate("/");
+          onRequestClose(); // 로그인 성공 시 모달 닫기
+          navigate("/");
+        } else {
+          setLoginError("사용자 데이터를 찾을 수 없습니다.");
+        }
       } catch (error: any) {
-        console.error("회원가입 실패", error);
-        setSignupError("회원가입 중 오류가 발생했습니다.");
+        console.error("로그인 실패", error);
+        switch (error.code) {
+          case "auth/user-not-found":
+            setLoginError("해당 이메일 주소를 사용하는 계정이 없습니다.");
+            break;
+          case "auth/wrong-password":
+            setLoginError("비밀번호가 잘못되었습니다.");
+            break;
+          case "auth/invalid-email":
+            setLoginError("유효한 이메일 주소를 입력하세요.");
+            break;
+          default:
+            setLoginError("로그인 중 오류가 발생했습니다.");
+            break;
+        }
       }
     } else {
-      setSignupError("입력란을 모두 제대로 입력해주세요");
+      setLoginError("입력란을 모두 제대로 입력해주세요");
     }
   };
+
   return (
     <ReactModal
       isOpen={isOpen}
       onRequestClose={onRequestClose}
-      contentLabel="Signup Modal"
+      contentLabel="Login Modal"
       style={{
         overlay: {
           backgroundColor: "rgba(0, 0, 0, 0.75)",
@@ -124,7 +106,7 @@ const SignupModal: React.FC<SignupModalProps> = ({
           bottom: "auto",
           marginRight: "-50%",
           transform: "translate(-50%, -50%)",
-          height: "600px",
+          height: "400px",
           width: "400px",
         },
       }}
@@ -217,57 +199,6 @@ const SignupModal: React.FC<SignupModalProps> = ({
               {passwordError}
             </div>
           )}
-          <input
-            style={{
-              width: "100%",
-              height: "50px",
-              border: "1px solid black",
-              backgroundColor: "lightgray",
-              padding: "10px",
-              marginBottom: "5px",
-            }}
-            type="password"
-            placeholder="비밀번호 확인"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-          />
-          {confirmPasswordError && (
-            <div
-              style={{
-                color: "red",
-                marginBottom: "10px",
-                width: "100%",
-                fontSize: "12px",
-              }}
-            >
-              {confirmPasswordError}
-            </div>
-          )}
-          <input
-            style={{
-              width: "100%",
-              height: "50px",
-              border: "1px solid black",
-              backgroundColor: "lightgray",
-              padding: "10px",
-              marginBottom: "5px",
-            }}
-            placeholder="닉네임"
-            value={nickname}
-            onChange={(e) => setNickname(e.target.value)}
-          />
-          {nicknameError && (
-            <div
-              style={{
-                color: "red",
-                marginBottom: "10px",
-                width: "100%",
-                fontSize: "12px",
-              }}
-            >
-              {nicknameError}
-            </div>
-          )}
           <button
             type="submit"
             style={{
@@ -278,7 +209,7 @@ const SignupModal: React.FC<SignupModalProps> = ({
               cursor: "pointer",
             }}
           >
-            회원가입
+            로그인
           </button>
         </div>
       </form>
@@ -286,4 +217,4 @@ const SignupModal: React.FC<SignupModalProps> = ({
   );
 };
 
-export default SignupModal;
+export default LoginModal;

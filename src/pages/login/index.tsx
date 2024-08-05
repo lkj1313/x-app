@@ -9,11 +9,13 @@ import { login } from "../../store/authSlice";
 import Loading from "../../components/loading";
 import SignupModal from "./components/signupModal";
 import useViewportHeight from "../../components/useViewportHeight";
+import LoginModal from "./components/loginModal";
 
 export default function LoginPage() {
   const [darkMode, setDarkMode] = useState(false);
   const [loading, setLoading] = useState(false); // 로딩 상태 추가
   const [showSignUp, setShowSignUp] = useState(false); // SignUpModal 상태 추가
+  const [showLogin, setShowLogin] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const provider = new GoogleAuthProvider();
@@ -34,23 +36,28 @@ export default function LoginPage() {
       const user = result.user;
       const userDocRef = doc(db, "users", user.uid);
       const userDoc = await getDoc(userDocRef);
-      // Firestore에 사용자 정보 저장
+
       if (userDoc.exists()) {
-        dispatch(login());
-        navigate("/");
+        const userData = userDoc.data();
+        dispatch(
+          login({
+            email: userData.email,
+            uid: user.uid,
+            nickname: userData.nickname,
+          })
+        );
       } else {
-        // 사용자 문서가 존재하지 않으면 새로 생성
-        await setDoc(userDocRef, {
-          nickname: user.displayName,
+        const newUser = {
           email: user.email,
-        });
-        dispatch(login());
-        setTimeout(() => {
-          navigate("/");
-        }, 1000); // 2초 후 홈 페이지로 리디렉션 (원하는 시간으로 변경 가능)
+          uid: user.uid,
+          nickname: user.displayName || "", // 닉네임이 없을 경우 빈 문자열로 대체
+        };
+        await setDoc(userDocRef, newUser);
+        dispatch(login(newUser));
       }
 
-      console.log("User Info:", user);
+      setLoading(false);
+      navigate("/");
     } catch (error) {
       console.error("Error during Google login:", error);
       setLoading(false); // 로그인 실패 시 로딩 상태 비활성화
@@ -58,6 +65,9 @@ export default function LoginPage() {
   };
   const handleSignUpClose = () => setShowSignUp(false);
   const handleSignUpShow = () => setShowSignUp(true);
+
+  const handleLoginClose = () => setShowLogin(false);
+  const handleLoginShow = () => setShowLogin(true);
   useViewportHeight();
 
   if (loading) {
@@ -75,6 +85,7 @@ export default function LoginPage() {
         isOpen={showSignUp}
         onRequestClose={handleSignUpClose}
       />{" "}
+      <LoginModal isOpen={showLogin} onRequestClose={handleLoginClose} />
       <div className="login-page">
         <div className="login-page__container">
           <div className="login-page__left-container">
@@ -121,7 +132,12 @@ export default function LoginPage() {
               동의해야 합니다.
             </span>
             <span>이미 트위터에 가입하셨나요?</span>
-            <button className="login-page_loginbutton">로그인</button>
+            <button
+              className="login-page_loginbutton"
+              onClick={handleLoginShow}
+            >
+              로그인
+            </button>
           </div>
         </div>
       </div>

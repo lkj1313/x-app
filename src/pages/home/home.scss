@@ -1,0 +1,82 @@
+.home-page {
+  display: flex;
+  flex: 0.6;
+  width: 100%;
+  flex-direction: column;
+}
+
+.home-page__tabs {
+  display: flex;
+  width: 100%;
+  height: 50px;
+  border-bottom: 1px solid gray;
+}
+
+.home-page__tab {
+  flex: 0.5;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  position: relative;
+}
+
+.home-page__tab::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background-color: transparent; /* 기본 상태에서 밑줄은 투명 */
+  transition: background-color 0.3s ease;
+}
+
+.home-page__tab--active::after {
+  background-color: white; /* 활성화된 탭에 밑줄 추가 */
+}
+
+.home-page__tab:hover {
+  background-color: #333333;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
+}
+
+.home-page__post {
+  width: 100%;
+  display: flex;
+  padding: 10px;
+  border-bottom: 1px solid gray;
+}
+
+.home-page__profile-img-wrapper {
+  flex: 0.1;
+  display: flex;
+  align-items: center;
+}
+
+.home-page__profile-img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+}
+
+.home-page__textarea-wrapper {
+  flex: 0.9;
+  display: flex;
+  flex-direction: column;
+}
+
+.home-page__textarea {
+  width: 100%;
+  padding: 10px;
+  box-sizing: border-box;
+  resize: none;
+  overflow: hidden;
+}
+
+.home-page__controls {
+  display: flex;
+  justify-content: space-between; /* 양단에 배치 */
+  align-items: center; /* 수직 정렬을 중앙으로 설정 */
+  margin-top: 10px; /* 외부 여백 설정 */
+}

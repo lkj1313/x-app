@@ -8,26 +8,17 @@ import { useNavigate } from "react-router-dom";
 import { login } from "../../store/authSlice";
 import Loading from "../../components/loading";
 import SignupModal from "./components/signupModal";
-import useViewportHeight from "../../components/useViewportHeight";
+import useViewportHeight from "../../hooks/useViewportHeight";
 import LoginModal from "./components/loginModal";
 
 export default function LoginPage() {
-  const [darkMode, setDarkMode] = useState(false);
+  const [darkMode, setDarkMode] = useState(true);
   const [loading, setLoading] = useState(false); // 로딩 상태 추가
   const [showSignUp, setShowSignUp] = useState(false); // SignUpModal 상태 추가
   const [showLogin, setShowLogin] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const provider = new GoogleAuthProvider();
-  const toggleDarkMode = () => {
-    // 다크모드 토글
-    setDarkMode(!darkMode);
-    document.body.classList.toggle("dark-theme", !darkMode);
-  };
-
-  useEffect(() => {
-    document.body.classList.toggle("dark-theme", darkMode);
-  }, [darkMode]);
 
   const googleLogin = async () => {
     try {
@@ -94,30 +85,8 @@ export default function LoginPage() {
       <div className="login-page">
         <div className="login-page__container">
           <div className="login-page__left-container">
-            <div className="layout__toggle-box">
-              <input
-                type="checkbox"
-                id="dark-mode-toggle"
-                checked={darkMode}
-                onChange={toggleDarkMode}
-              />
-              <label htmlFor="dark-mode-toggle" className="toggle">
-                <img
-                  className="toggle__icon toggle__icon--moon"
-                  src="/moon.svg"
-                  alt="Moon icon"
-                />
-                <img
-                  className="toggle__icon toggle__icon--sun"
-                  src="/sun.svg"
-                  alt="Sun icon"
-                />
-              </label>
-            </div>
             <img
-              className={`login-page__logo ${
-                darkMode ? "login-page__logo--dark" : ""
-              }`}
+              className="login-page__logo  login-page__logo--dark"
               src={darkMode ? "/X-white_logo.png" : "/X_logo.png"}
               alt="Logo"
             />

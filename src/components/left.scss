@@ -1,0 +1,40 @@
+.left-component {
+  flex: 0.2;
+  padding: 0 30px;
+}
+
+.left-component__icon-box {
+  padding: 30px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.left-component__logobutton {
+  margin-bottom: 30px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease; /* 부드러운 전환 효과 */
+  width: 50%;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.left-component__homebutton,
+.left-component__explorebutton {
+  margin-bottom: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease; /* 부드러운 전환 효과 */
+  width: 50%;
+  display: flex;
+  justify-content: center;
+  height: 50px;
+  align-items: center;
+}
+
+.left-component__logobutton:hover,
+.left-component__homebutton:hover,
+.left-component__explorebutton:hover {
+  background-color: #333333; /* 호버 시 살짝 밝아진 배경색 */
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.3); /* 미묘한 그림자 효과 */
+}

@@ -2,6 +2,8 @@ import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import HomePage from "../pages/home";
 import LoginPage from "../pages/login";
+import Layout from "./Layout";
+import SearchPage from "../pages/search";
 
 const pageTransition = {
   initial: {
@@ -21,15 +23,78 @@ const AnimatedRoutes = () => {
   return (
     <AnimatePresence>
       <Routes location={location} key={location.pathname}>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/posts" element={<h1>Home page</h1>} />
-        <Route path="/posts/:id" element={<h1>Home page</h1>} />
-        <Route path="/posts/new" element={<h1>Home page</h1>} />
-        <Route path="/posts/edit" element={<h1>Home page</h1>} />
-        <Route path="/posts/profile" element={<h1>Home page</h1>} />
-        <Route path="/posts/profile/edit" element={<h1>Home page</h1>} />
-        <Route path="/notificataion" element={<h1>Home page</h1>} />
-        <Route path="/search" element={<h1>Home page</h1>} />
+        <Route
+          path="/"
+          element={
+            <Layout>
+              <HomePage />
+            </Layout>
+          }
+        />
+        <Route
+          path="/posts"
+          element={
+            <Layout>
+              <h1>Home page</h1>
+            </Layout>
+          }
+        />
+        <Route
+          path="/posts/:id"
+          element={
+            <Layout>
+              <h1>Home page</h1>
+            </Layout>
+          }
+        />
+        <Route
+          path="/posts/new"
+          element={
+            <Layout>
+              <h1>Home page</h1>
+            </Layout>
+          }
+        />
+        <Route
+          path="/posts/edit"
+          element={
+            <Layout>
+              <h1>Home page</h1>
+            </Layout>
+          }
+        />
+        <Route
+          path="/posts/profile"
+          element={
+            <Layout>
+              <h1>Home page</h1>
+            </Layout>
+          }
+        />
+        <Route
+          path="/posts/profile/edit"
+          element={
+            <Layout>
+              <h1>Home page</h1>
+            </Layout>
+          }
+        />
+        <Route
+          path="/notificataion"
+          element={
+            <Layout>
+              <h1>Home page</h1>
+            </Layout>
+          }
+        />
+        <Route
+          path="/search"
+          element={
+            <Layout>
+              <SearchPage />
+            </Layout>
+          }
+        />
         <Route path="/users/login" element={<LoginPage />} />
         <Route path="*" element={<Navigate replace to="/" />} />
       </Routes>

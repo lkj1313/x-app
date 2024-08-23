@@ -93,15 +93,11 @@ const SignupModal: React.FC<SignupModalProps> = ({
           uid: user.uid,
           email: user.email,
           nickname: nickname,
+          profilePicture: "/profile.jpg",
         });
 
-        // Redux 상태 업데이트
-        dispatch(
-          login({ email: user.email, uid: user.uid, nickname: nickname })
-        );
-
         onRequestClose(); // 회원가입 성공 시 모달 닫기
-        navigate("/");
+        alert("회원가입이 완료되었습니다. 로그인 해주세요!");
       } catch (error: any) {
         console.error("회원가입 실패", error);
         alert("회원가입 중 오류가 발생했습니다.");

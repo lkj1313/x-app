@@ -1,33 +1,22 @@
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import { onAuthStateChanged, signOut } from "firebase/auth";
-import { useNavigate } from "react-router-dom";
 import { auth } from "../../firebase";
-
-const useAuth = () => {
+export function useAuth() {
+  // Named export
   const [user, setUser] = useState(null);
-  const navigate = useNavigate();
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        setUser(user);
-      } else {
-        setUser(null);
-        navigate("/users/login");
-      }
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
     });
 
-    // Cleanup subscription on unmount
     return () => unsubscribe();
-  }, [navigate]);
+  }, []);
 
-  const logout = async () => {
-    await signOut(auth);
+  const logout = () => {
+    signOut(auth);
     setUser(null);
-    navigate("/users/login");
   };
 
   return { user, logout };
-};
-
-export default useAuth;
+}

@@ -1,10 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { CiImageOn } from "react-icons/ci";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store/store";
+import { addPost } from "./utility/postUtils";
 
 const HomePage = () => {
   const [activeTab, setActiveTab] = useState("recommend");
   const [textareaContext, setTextareaContext] = useState("");
-
+  const [posts, setPosts] = useState<string[]>([]);
+  const user = useSelector((state: RootState) => state.auth.user);
   const autoResizeTextarea = (textarea: HTMLTextAreaElement): void => {
     textarea.style.height = "auto";
     textarea.style.height = `${textarea.scrollHeight}px`;
@@ -18,6 +22,18 @@ const HomePage = () => {
     autoResizeTextarea(target);
   };
 
+  const handlePost = async () => {
+    if (textareaContext.trim()) {
+      const post = {
+        text: textareaContext,
+        usernickname: user?.nickname,
+        profilePicture: user?.profilePicture,
+        userEmail: user?.email,
+      };
+      await addPost(post);
+      setTextareaContext("");
+    }
+  };
   useEffect(() => {
     const textarea = document.querySelector(
       ".home-page__textarea"
@@ -48,7 +64,6 @@ const HomePage = () => {
           Following
         </div>
       </div>
-
       <div className="home-page__post">
         <div className="home-page__profile-img-wrapper">
           <img
@@ -67,9 +82,18 @@ const HomePage = () => {
           />
           <div className="home-page__controls">
             <CiImageOn className="home-page__controls-icon" size={30} />
-            <button className="home-page__controls-button">게시하기</button>
+            <button className="home-page__controls-button" onClick={handlePost}>
+              게시하기
+            </button>
           </div>
         </div>
+      </div>{" "}
+      <div className="home-page__posts">
+        {posts.map((post, index) => (
+          <div key={index} className="home-page__post-item">
+            {post}
+          </div>
+        ))}
       </div>
     </div>
   );

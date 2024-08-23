@@ -34,7 +34,7 @@ const Left = () => {
             navigate("/");
           }}
         >
-          <IoHomeOutline size={40} />
+          <IoHomeOutline size={40} /> <div>Home</div>
         </div>
         {/* explore버튼 */}
         <div
@@ -44,7 +44,7 @@ const Left = () => {
           }}
         >
           {" "}
-          <MdOutlineExplore size={40} />
+          <MdOutlineExplore size={40} /> <div>Explore</div>
         </div>
       </div>
       {/* 로고 */}

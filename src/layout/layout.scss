@@ -1,3 +1,10 @@
+.layout {
+  width: 100%;
+  height: 100%;
+  display: flex;
+}
+
+/// left
 .left-component {
   flex: 0.2;
   padding: 0 30px;
@@ -16,7 +23,7 @@
   width: 50%;
   height: 50px;
   display: flex;
-  justify-content: center;
+
   align-items: center;
 }
 
@@ -27,14 +34,22 @@
   transition: background-color 0.3s ease, box-shadow 0.3s ease; /* 부드러운 전환 효과 */
   width: 50%;
   display: flex;
-  justify-content: center;
+
   height: 50px;
   align-items: center;
+  div {
+    margin-left: 10px;
+  }
 }
 
-.left-component__logobutton:hover,
 .left-component__homebutton:hover,
 .left-component__explorebutton:hover {
   background-color: #333333; /* 호버 시 살짝 밝아진 배경색 */
   box-shadow: 0 0 8px rgba(0, 0, 0, 0.3); /* 미묘한 그림자 효과 */
+}
+
+//right
+
+.right-component {
+  border-left: 1px solid gray;
 }

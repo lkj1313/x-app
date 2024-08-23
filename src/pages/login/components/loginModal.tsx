@@ -6,7 +6,6 @@ import { useDispatch } from "react-redux";
 import { login } from "../../../store/authSlice";
 import { auth, db } from "../../../../firebase";
 import { doc, getDoc } from "firebase/firestore";
-import Loading from "../../../components/loading";
 
 interface LoginModalProps {
   isOpen: boolean;
@@ -73,6 +72,7 @@ const LoginModal: React.FC<LoginModalProps> = ({
             email: userData.email,
             uid: user.uid,
             nickname: userData.nickname,
+            profilePicture: userData.profilePicture,
           })
         );
 

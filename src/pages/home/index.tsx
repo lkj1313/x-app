@@ -2,12 +2,28 @@ import React, { useState, useEffect } from "react";
 import { CiImageOn } from "react-icons/ci";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
-import { addPost } from "./utility/postUtils";
 
+import { db } from "../../../firebase";
+import { collection, addDoc, Timestamp } from "firebase/firestore";
+import PostItem from "./components/postItem";
+import PostList from "./components/postList";
+
+export interface Post {
+  id?: string;
+  text: string;
+  likes: number;
+  comments: any[];
+  author: {
+    username?: string;
+    profilePicture?: string;
+    userEmail?: string | null;
+  };
+  createdAt: Timestamp;
+}
 const HomePage = () => {
   const [activeTab, setActiveTab] = useState("recommend");
   const [textareaContext, setTextareaContext] = useState("");
-  const [posts, setPosts] = useState<string[]>([]);
+  const [posts, setPosts] = useState<Post[]>([]); // Post 타입으로 상태 정의
   const user = useSelector((state: RootState) => state.auth.user);
   const autoResizeTextarea = (textarea: HTMLTextAreaElement): void => {
     textarea.style.height = "auto";
@@ -30,8 +46,41 @@ const HomePage = () => {
         profilePicture: user?.profilePicture,
         userEmail: user?.email,
       };
-      await addPost(post);
-      setTextareaContext("");
+
+      try {
+        const docRef = await addDoc(collection(db, "posts"), {
+          text: post.text,
+          likes: 0,
+          comments: [],
+          author: {
+            username: post.usernickname,
+            profilePicture: post.profilePicture,
+            userEmail: post.userEmail,
+          },
+          createdAt: Timestamp.now(),
+        });
+
+        // Firestore에 저장된 새로운 게시물을 posts 상태에 추가
+        setPosts((prevPosts) => [
+          ...prevPosts,
+          {
+            id: docRef.id,
+            text: post.text,
+            likes: 0,
+            comments: [],
+            author: {
+              username: post.usernickname,
+              profilePicture: post.profilePicture,
+              userEmail: post.userEmail,
+            },
+            createdAt: Timestamp.now(),
+          },
+        ]);
+
+        setTextareaContext(""); // 텍스트 초기화
+      } catch (error) {
+        console.error("Error adding document: ", error);
+      }
     }
   };
   useEffect(() => {
@@ -67,7 +116,7 @@ const HomePage = () => {
       <div className="home-page__post">
         <div className="home-page__profile-img-wrapper">
           <img
-            src="/profile.jpg"
+            src={user?.profilePicture}
             alt="Profile"
             className="home-page__profile-img"
           />
@@ -88,13 +137,7 @@ const HomePage = () => {
           </div>
         </div>
       </div>{" "}
-      <div className="home-page__posts">
-        {posts.map((post, index) => (
-          <div key={index} className="home-page__post-item">
-            {post}
-          </div>
-        ))}
-      </div>
+      <PostList statePosts={posts} />
     </div>
   );
 };

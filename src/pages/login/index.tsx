@@ -35,13 +35,15 @@ export default function LoginPage() {
             email: userData.email,
             uid: user.uid,
             nickname: userData.nickname,
+            profilePicture: userData.profilePicture || "/profile.jpg", // 저장된 프로필 사진 사용
           })
         );
       } else {
         const newUser = {
           email: user.email,
           uid: user.uid,
-          nickname: user.displayName || "", // 닉네임이 없을 경우 빈 문자열로 대체
+          nickname: user.displayName || "Anonymous", // 닉네임이 없을 경우 기본값 설정
+          profilePicture: user.photoURL || "/profile.jpg", // Google 프로필 사진 사용 또는 기본값
         };
         await setDoc(userDocRef, newUser);
         dispatch(login(newUser));

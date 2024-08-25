@@ -16,7 +16,7 @@ const Left = () => {
 
   return (
     <div className="left-component" style={{ borderRight: "1px solid gray" }}>
-      <div className={`left-component__icon-box  `}>
+      <nav className="left-component__icon-box">
         {" "}
         <div className="left-component__logobutton dark">
           <a href="/">
@@ -46,7 +46,7 @@ const Left = () => {
           {" "}
           <MdOutlineExplore size={40} /> <div>Explore</div>
         </div>
-      </div>
+      </nav>
       {/* 로고 */}
     </div>
   );

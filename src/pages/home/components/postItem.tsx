@@ -1,9 +1,10 @@
 import { collection, addDoc, Timestamp } from "firebase/firestore";
+import React, { forwardRef } from "react";
 import { Post } from "..";
 interface PostItemProps {
   post: Post;
 }
-const PostItem: React.FC<PostItemProps> = ({ post }) => {
+const PostItem = forwardRef<HTMLDivElement, PostItemProps>(({ post }, ref) => {
   return (
     <div className="home-page__post-item">
       <div className="home-page__post-author">
@@ -29,6 +30,6 @@ const PostItem: React.FC<PostItemProps> = ({ post }) => {
       </div>
     </div>
   );
-};
+});
 
 export default PostItem;

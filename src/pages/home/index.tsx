@@ -5,7 +5,7 @@ import { RootState } from "../../store/store";
 
 import { db } from "../../../firebase";
 import { collection, addDoc, Timestamp } from "firebase/firestore";
-import PostItem from "./components/postItem";
+
 import PostList from "./components/postList";
 
 export interface Post {
@@ -137,7 +137,7 @@ const HomePage = () => {
           </div>
         </div>
       </div>{" "}
-      <PostList statePosts={posts} />
+      <PostList />
     </div>
   );
 };

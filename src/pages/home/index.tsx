@@ -16,6 +16,7 @@ import {
 } from "firebase/firestore";
 import PostList from "./components/postList";
 import PostInput from "./components/postInput";
+import Tabs from "./components/tabs";
 
 export interface Post {
   id?: string;
@@ -42,19 +43,6 @@ const HomePage = () => {
   const observerRef = useRef<IntersectionObserver | null>(null);
 
   const user = useSelector((state: RootState) => state.auth.user);
-
-  const autoResizeTextarea = (textarea: HTMLTextAreaElement): void => {
-    textarea.style.height = "auto";
-    textarea.style.height = `${textarea.scrollHeight}px`;
-  };
-
-  const handleTextareaChange = (
-    e: React.ChangeEvent<HTMLTextAreaElement>
-  ): void => {
-    const target = e.target as HTMLTextAreaElement;
-    setTextareaContext(target.value);
-    autoResizeTextarea(target);
-  };
 
   const handlePost = async (text: string) => {
     if (text.trim()) {
@@ -154,30 +142,13 @@ const HomePage = () => {
 
   return (
     <div className="home-page">
-      <div className="home-page__tabs">
-        <div
-          className={`home-page__tab ${
-            activeTab === "recommend" ? "home-page__tab--active" : ""
-          }`}
-          onClick={() => setActiveTab("recommend")}
-        >
-          For you
-        </div>
-        <div
-          className={`home-page__tab ${
-            activeTab === "follow" ? "home-page__tab--active" : ""
-          }`}
-          onClick={() => setActiveTab("follow")}
-        >
-          Following
-        </div>
-      </div>
+      <Tabs activeTab={activeTab} onTabChange={setActiveTab} />
       <PostInput
         textareaContext={textareaContext}
         onTextareaChange={setTextareaContext}
         onPost={handlePost}
       />
-      <PostList posts={posts} lastPostRef={lastPostRef} />{" "}
+      <PostList posts={posts} lastPostRef={lastPostRef} loading={loading} />{" "}
       {/* PostList에 posts와 lastPostRef를 전달 */}
     </div>
   );

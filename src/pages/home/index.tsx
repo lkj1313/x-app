@@ -46,8 +46,9 @@ const HomePage = () => {
 
   const handlePost = async (text: string) => {
     if (text.trim()) {
+      // context가 공백이 아니라면 실행
       const post = {
-        text: text, // 여기서 text는 PostInput에서 전달된 값입니다.
+        text, // 여기서 text는 PostInput에서 전달된 값입니다.
         usernickname: user?.nickname,
         profilePicture: user?.profilePicture,
         userEmail: user?.email,
@@ -65,7 +66,6 @@ const HomePage = () => {
           },
           createdAt: Timestamp.now(),
         });
-
         setPosts((prevPosts) => [
           {
             id: docRef.id,
@@ -122,23 +122,24 @@ const HomePage = () => {
 
   const lastPostRef = useCallback(
     (node: HTMLDivElement) => {
-      if (loading || !hasMore) return;
-      if (observerRef.current) observerRef.current.disconnect();
+      if (loading || !hasMore) return; // 로딩 중이거나 더 이상 가져올 데이터가 없으면 중단
+
+      if (observerRef.current) observerRef.current.disconnect(); // 기존 관찰 해제
 
       observerRef.current = new IntersectionObserver((entries) => {
-        if (entries[0].isIntersecting && hasMore) {
-          fetchPosts(lastVisibleDoc); // 스크롤이 끝에 도달하면 데이터 추가 로드
+        if (entries[0].isIntersecting) {
+          fetchPosts(lastVisibleDoc); // 스크롤 끝에 도달하면 데이터 로드
         }
       });
 
-      if (node) observerRef.current.observe(node);
+      if (node) observerRef.current.observe(node); // 새로운 노드 관찰 시작
     },
     [loading, hasMore, lastVisibleDoc, fetchPosts]
   );
 
   useEffect(() => {
     fetchPosts(); // 컴포넌트가 마운트될 때 초기 데이터 로드
-  }, [fetchPosts]);
+  }, []);
 
   return (
     <div className="home-page">
@@ -148,7 +149,7 @@ const HomePage = () => {
         onTextareaChange={setTextareaContext}
         onPost={handlePost}
       />
-      <PostList posts={posts} lastPostRef={lastPostRef} loading={loading} />{" "}
+      <PostList posts={posts} lastPostRef={lastPostRef} />{" "}
       {/* PostList에 posts와 lastPostRef를 전달 */}
     </div>
   );

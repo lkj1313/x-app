@@ -33,80 +33,25 @@ function App() {
   return (
     <Provider store={store}>
       <Routes location={location} key={location.pathname}>
-        <Route
-          path="/"
-          element={
-            <Layout>
-              <HomePage />
-            </Layout>
-          }
-        />
-        <Route
-          path="/posts"
-          element={
-            <Layout>
-              <h1>Home page</h1>
-            </Layout>
-          }
-        />
-        <Route
-          path="/posts/:id"
-          element={
-            <Layout>
-              <h1>Home page</h1>
-            </Layout>
-          }
-        />
-        <Route
-          path="/posts/new"
-          element={
-            <Layout>
-              <h1>Home page</h1>
-            </Layout>
-          }
-        />
-        <Route
-          path="/posts/edit"
-          element={
-            <Layout>
-              <h1>Home page</h1>
-            </Layout>
-          }
-        />
-        <Route
-          path="/posts/profile"
-          element={
-            <Layout>
-              <h1>Home page</h1>
-            </Layout>
-          }
-        />
-        <Route
-          path="/posts/profile/edit"
-          element={
-            <Layout>
-              <h1>Home page</h1>
-            </Layout>
-          }
-        />
-        <Route
-          path="/notificataion"
-          element={
-            <Layout>
-              <h1>Home page</h1>
-            </Layout>
-          }
-        />
-        <Route
-          path="/search"
-          element={
-            <Layout>
-              <SearchPage />
-            </Layout>
-          }
-        />
+        {/* Layout이 필요 없는 경로들 */}
         <Route path="/users/login" element={<LoginPage />} />
         <Route path="*" element={<Navigate replace to="/" />} />
+
+        {/* Layout이 필요한 경로들 */}
+        <Route element={<Layout />}>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/posts" element={<h1>Posts 페이지</h1>} />
+          <Route path="/posts/:id" element={<h1>Post 상세 페이지</h1>} />
+          <Route path="/posts/new" element={<h1>새 Post 페이지</h1>} />
+          <Route path="/posts/edit" element={<h1>Post 수정 페이지</h1>} />
+          <Route path="/posts/profile" element={<h1>프로필 페이지</h1>} />
+          <Route
+            path="/posts/profile/edit"
+            element={<h1>프로필 수정 페이지</h1>}
+          />
+          <Route path="/notification" element={<h1>알림 페이지</h1>} />
+          <Route path="/search" element={<SearchPage />} />
+        </Route>
       </Routes>
     </Provider>
   );

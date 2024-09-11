@@ -1,16 +1,13 @@
 import { ReactNode } from "react";
 import Left from "./left";
 import Right from "./right";
+import { Outlet } from "react-router-dom";
 
-interface LayoutProps {
-  children: ReactNode;
-}
-
-const Layout = ({ children }: LayoutProps) => {
+const Layout = () => {
   return (
     <div className="layout">
       <Left />
-      {children}
+      <Outlet />
       <Right />
     </div>
   );

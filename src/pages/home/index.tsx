@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import { CiImageOn } from "react-icons/ci";
+
 import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
 import { db } from "../../../firebase";
@@ -15,6 +15,7 @@ import {
   startAfter,
 } from "firebase/firestore";
 import PostList from "./components/postList";
+import PostInput from "./components/postInput";
 
 export interface Post {
   id?: string;
@@ -55,10 +56,10 @@ const HomePage = () => {
     autoResizeTextarea(target);
   };
 
-  const handlePost = async () => {
-    if (textareaContext.trim()) {
+  const handlePost = async (text: string) => {
+    if (text.trim()) {
       const post = {
-        text: textareaContext,
+        text: text, // 여기서 text는 PostInput에서 전달된 값입니다.
         usernickname: user?.nickname,
         profilePicture: user?.profilePicture,
         userEmail: user?.email,
@@ -92,8 +93,6 @@ const HomePage = () => {
           },
           ...prevPosts, // 새 게시글을 목록 상단에 추가
         ]);
-
-        setTextareaContext(""); // 텍스트 초기화
       } catch (error) {
         console.error("Error adding document: ", error);
       }
@@ -173,31 +172,12 @@ const HomePage = () => {
           Following
         </div>
       </div>
-      <div className="home-page__post">
-        <div className="home-page__profile-img-wrapper">
-          <img
-            src={user?.profilePicture}
-            alt="Profile"
-            className="home-page__profile-img"
-          />
-        </div>
-        <div className="home-page__textarea-wrapper">
-          <textarea
-            placeholder="What is happening?"
-            value={textareaContext}
-            onChange={handleTextareaChange}
-            rows={3}
-            className="home-page__textarea"
-          />
-          <div className="home-page__controls">
-            <CiImageOn className="home-page__controls-icon" size={30} />
-            <button className="home-page__controls-button" onClick={handlePost}>
-              게시하기
-            </button>
-          </div>
-        </div>
-      </div>
-      <PostList posts={posts} lastPostRef={lastPostRef} loading={loading} />{" "}
+      <PostInput
+        textareaContext={textareaContext}
+        onTextareaChange={setTextareaContext}
+        onPost={handlePost}
+      />
+      <PostList posts={posts} lastPostRef={lastPostRef} />{" "}
       {/* PostList에 posts와 lastPostRef를 전달 */}
     </div>
   );

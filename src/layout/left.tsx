@@ -12,7 +12,6 @@ const Left = () => {
   const handleHomeIconClick = () => {
     navigate("/");
   };
-  const handleExploreIconClick = () => {};
 
   return (
     <div className="left-component" style={{ borderRight: "1px solid gray" }}>
@@ -34,7 +33,8 @@ const Left = () => {
             navigate("/");
           }}
         >
-          <IoHomeOutline size={40} /> <div>Home</div>
+          <IoHomeOutline style={{ fontSize: "40px" }} />{" "}
+          <div className="left-component__home-text">Home</div>
         </div>
         {/* explore버튼 */}
         <div
@@ -44,7 +44,8 @@ const Left = () => {
           }}
         >
           {" "}
-          <MdOutlineExplore size={40} /> <div>Explore</div>
+          <MdOutlineExplore style={{ fontSize: "40px" }} />{" "}
+          <div className="left-component__explore-text">Explore</div>
         </div>
       </nav>
       {/* 로고 */}

@@ -7,8 +7,6 @@ import store from "./store/store"; // Redux store import
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <Provider store={store}>
-    {" "}
-    {/* Redux Provider로 App을 감쌈 */}
     <BrowserRouter>
       <App />
     </BrowserRouter>

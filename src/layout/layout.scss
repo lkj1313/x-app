@@ -1,4 +1,4 @@
-.layout {
+.layout-container {
   width: 100%;
 
   display: flex;
@@ -7,41 +7,39 @@
 /// left
 .left-component {
   flex: 0.2;
-  padding: 0 30px;
+  padding: 30px 30px;
   position: relative;
-  width: 20%;
+  display: flex;
+  justify-content: center;
 }
 
 .left-component__icon-box {
-  position: fixed;
-  top: 30px;
-  width: 20%;
-
   padding: 0;
   height: 100dvh;
   display: flex;
   flex-direction: column;
   align-items: center;
+  gap: 3px;
 }
 .left-component__logobutton {
-  margin-bottom: 30px;
-  cursor: pointer;
   transition: background-color 0.3s ease, box-shadow 0.3s ease; /* 부드러운 전환 효과 */
-  width: 50%;
+  width: 150px;
   height: 50px;
   display: flex;
-
   align-items: center;
+  margin-bottom: 20px;
+
+  img {
+    cursor: pointer;
+  }
 }
 
 .left-component__homebutton,
 .left-component__explorebutton {
-  margin-bottom: 10px;
   cursor: pointer;
   transition: background-color 0.3s ease, box-shadow 0.3s ease; /* 부드러운 전환 효과 */
-  width: 50%;
+  width: 150px;
   display: flex;
-
   height: 50px;
   align-items: center;
   div {
@@ -59,4 +57,68 @@
 
 .right-component {
   border-left: 1px solid gray;
+}
+
+@media (max-width: 850px) {
+  .layout-container {
+    flex-direction: column; /* 세로 정렬 */
+  }
+
+  .home-page {
+    order: 1; /* 중앙을 맨 위로 */
+    margin-bottom: 50px;
+  }
+
+  .right-component {
+    display: none;
+  }
+
+  .left-component {
+    order: 2;
+    width: 100%;
+    padding: 0;
+    position: fixed;
+    bottom: 0;
+    border: 1px solid white;
+  }
+  .left-component__icon-box {
+    width: 100%;
+
+    padding: 10px 30px;
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    height: 50px;
+    justify-content: space-between;
+  }
+  .left-component__logobutton {
+    transition: background-color 0.3s ease, box-shadow 0.3s ease; /* 부드러운 전환 효과 */
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    margin: 0;
+
+    img {
+      cursor: pointer;
+    }
+  }
+
+  .left-component__homebutton,
+  .left-component__explorebutton {
+    cursor: pointer;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease; /* 부드러운 전환 효과 */
+    width: 50px;
+    display: flex;
+    height: 50px;
+    align-items: center;
+    div {
+      margin-left: 10px;
+    }
+  }
+  .left-component__home-text,
+  .left-component__explore-text {
+    display: none;
+  }
 }

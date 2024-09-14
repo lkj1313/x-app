@@ -5,7 +5,15 @@
   flex-direction: column;
   height: 100%;
 }
-
+@media (max-width: 850px) {
+  .home-page {
+    display: flex;
+    flex: 0.6;
+    width: 100%;
+    flex-direction: column;
+    height: 100px;
+  }
+}
 .home-page__tabs {
   display: flex;
   width: 100%;

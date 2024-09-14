@@ -1,5 +1,7 @@
 import { useEffect, useRef } from "react";
 import { CiImageOn } from "react-icons/ci";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../store/store";
 
 interface PostInputProps {
   textareaContext: string;
@@ -31,22 +33,33 @@ const PostInput = ({
       onTextareaChange(""); // 게시 후 textareaContext 리셋
     }
   };
-
+  const user = useSelector((state: RootState) => state.auth.user);
+  const profileImg = user?.profilePicture;
   return (
-    <div className="home-page__post">
-      <textarea
-        ref={textareaRef} // textarea에 ref 연결
-        placeholder="What is happening?"
-        value={textareaContext} // 부모에서 받은 상태
-        onChange={handleTextareaChange} // 상태 변화 전달
-        rows={3}
-        className="home-page__textarea"
-      />
-      <div className="home-page__controls">
-        <CiImageOn className="home-page__controls-icon" size={30} />
-        <button className="home-page__controls-button" onClick={handlePost}>
-          게시하기
-        </button>
+    <div className="home-page__post-container">
+      <div className="home-page__profile-textare-container">
+        <div className="home-page__profile-container">
+          <img src={profileImg} alt="profile-img" />
+        </div>
+        <div className="home-page__textarea-container">
+          <textarea
+            ref={textareaRef} // textarea에 ref 연결
+            placeholder="What is happening?"
+            value={textareaContext} // 부모에서 받은 상태
+            onChange={handleTextareaChange} // 상태 변화 전달
+            rows={3}
+            className="home-page__textarea"
+          />{" "}
+        </div>
+      </div>
+      <div style={{ display: "flex" }}>
+        <div style={{ flex: "0.1" }}></div>
+        <div style={{ flex: "0.8" }} className="home-page__controls-container">
+          <CiImageOn className="home-page__img-icon" size={30} />
+          <button className="home-page__controls-button" onClick={handlePost}>
+            <span className="home-page__post-text">Post</span>
+          </button>
+        </div>
       </div>
     </div>
   );

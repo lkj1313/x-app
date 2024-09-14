@@ -1,4 +1,3 @@
-import Router from "./components/Router";
 import {
   Routes,
   Route,
@@ -12,7 +11,8 @@ import SearchPage from "./pages/search";
 import LoginPage from "./pages/login";
 import { useEffect } from "react";
 import { useAuth } from "./hooks/useAuth";
-
+import { useSelector } from "react-redux";
+import { RootState } from "./store/store";
 import store from "./store/store";
 import { Provider } from "react-redux";
 
@@ -21,7 +21,7 @@ function App() {
   const navigate = useNavigate();
 
   // 로컬 스토리지에서 로그인 정보 확인
-  const isLoggedIn = !!localStorage.getItem("user");
+  const isLoggedIn = useSelector((state: RootState) => state.auth.isLoggedIn);
 
   // 로그인 상태를 확인하고, 로그인되지 않은 경우 리다이렉트
   useEffect(() => {

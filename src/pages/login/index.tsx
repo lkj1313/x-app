@@ -12,7 +12,6 @@ import useViewportHeight from "../../hooks/useViewportHeight";
 import LoginModal from "./components/loginModal";
 
 export default function LoginPage() {
-  const [darkMode, setDarkMode] = useState(true);
   const [loading, setLoading] = useState(false); // 로딩 상태 추가
   const [showSignUp, setShowSignUp] = useState(false); // SignUpModal 상태 추가
   const [showLogin, setShowLogin] = useState(false);

@@ -66,7 +66,7 @@ const LoginModal: React.FC<LoginModalProps> = ({
       const userDoc = await getDoc(doc(db, "users", user.uid));
       if (userDoc.exists()) {
         const userData = userDoc.data();
-
+        console.log("로그인 성공, 사용자 데이터: ", userData);
         dispatch(
           login({
             email: userData.email,

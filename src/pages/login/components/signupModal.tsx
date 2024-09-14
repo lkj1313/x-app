@@ -16,7 +16,7 @@ interface SignupModalProps {
   onRequestClose: () => void;
   setLoading: (loading: boolean) => void; // 로딩 상태 업데이트 함수 추가
 }
-
+ReactModal.setAppElement("#root");
 const SignupModal: React.FC<SignupModalProps> = ({
   isOpen,
   onRequestClose,

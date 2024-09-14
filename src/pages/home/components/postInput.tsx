@@ -52,9 +52,9 @@ const PostInput = ({
           />{" "}
         </div>
       </div>
-      <div style={{ display: "flex" }}>
+      <div className="home-page__controls-container">
         <div style={{ flex: "0.1" }}></div>
-        <div style={{ flex: "0.8" }} className="home-page__controls-container">
+        <div style={{ flex: "0.8" }} className="home-page__controls">
           <CiImageOn className="home-page__img-icon" size={30} />
           <button className="home-page__controls-button" onClick={handlePost}>
             <span className="home-page__post-text">Post</span>

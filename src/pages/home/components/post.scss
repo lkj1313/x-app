@@ -8,6 +8,7 @@
 .home-page__profile-textare-container {
   display: flex;
   flex-direction: row;
+  gap: 10px;
 }
 .home-page__profile-container {
   flex: 0.1;
@@ -21,9 +22,9 @@
   }
 }
 .home-page__textarea-container {
-  flex: 0.8;
   display: flex;
   align-items: center;
+  flex: 0.8;
 }
 .home-page__post-item {
   display: flex;
@@ -56,6 +57,10 @@
   }
 }
 .home-page__controls-container {
+  display: flex;
+  gap: 10px;
+}
+.home-page__controls {
   margin-top: 10px;
   flex: 0.8;
   display: flex;

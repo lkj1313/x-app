@@ -6,9 +6,14 @@ import { useEffect } from "react";
 interface PostListProps {
   posts: Post[];
   lastPostRef: (node: HTMLDivElement) => void;
+  handleLike: (postId: string) => Promise<void>; // handleLike 타입 추가
 }
 
-const PostList: React.FC<PostListProps> = ({ posts, lastPostRef }) => {
+const PostList: React.FC<PostListProps> = ({
+  posts,
+  lastPostRef,
+  handleLike,
+}) => {
   useEffect(() => {
     console.log("Updated posts in PostList:", posts);
   }, [posts]);
@@ -21,7 +26,8 @@ const PostList: React.FC<PostListProps> = ({ posts, lastPostRef }) => {
           <PostItem
             key={post.id}
             post={post}
-            ref={isLastPost ? lastPostRef : null} // 마지막 게시글에 ref 전달
+            ref={isLastPost ? lastPostRef : null}
+            handleLike={handleLike} // 마지막 게시글에 ref 전달
           />
         );
       })}

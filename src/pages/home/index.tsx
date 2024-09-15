@@ -12,10 +12,14 @@ import {
   query,
   limit,
   startAfter,
+  updateDoc,
+  increment,
+  doc,
 } from "firebase/firestore";
 import PostList from "./components/postList"; // 게시물 목록 컴포넌트
 import PostInput from "./components/postInput"; // 게시물 작성 컴포넌트
 import Tabs from "./components/tabs"; // 탭 내비게이션 컴포넌트
+import { incrementFirebaseLikeCount } from "../../firebase/firebaseService";
 
 export interface Post {
   id?: string;
@@ -97,7 +101,7 @@ const HomePage = () => {
       }
     }
   };
-
+  console.log(posts);
   // 게시물 목록 불러오기 핸들러 (페이징 포함)
   const fetchPosts = useCallback(
     async (lastVisibleDoc: DocumentSnapshot | null = null) => {
@@ -153,6 +157,23 @@ const HomePage = () => {
     },
     [loading, hasMore, lastVisibleDoc, fetchPosts]
   );
+  const handleLike = async (postId: string) => {
+    try {
+      // Firestore에서 좋아요 수 업데이트
+      await incrementFirebaseLikeCount(postId);
+
+      // 상태에서도 좋아요 수 업데이트
+      setPosts((prevPosts) =>
+        prevPosts.map((post) =>
+          post.id === postId
+            ? { ...post, likes: post.likes + 1 } // likes 수 1 증가
+            : post
+        )
+      );
+    } catch (error) {
+      console.error("Error handling like: ", error);
+    }
+  };
 
   // 컴포넌트가 마운트될 때 게시물 초기 로드
   useEffect(() => {
@@ -170,7 +191,11 @@ const HomePage = () => {
         onPost={handlePost}
       />
       {/* 게시물 목록 컴포넌트 및 무한 스크롤 처리 */}
-      <PostList posts={posts} lastPostRef={lastPostRef} />
+      <PostList
+        posts={posts}
+        lastPostRef={lastPostRef}
+        handleLike={handleLike}
+      />
     </div>
   );
 };

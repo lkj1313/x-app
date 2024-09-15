@@ -1,5 +1,7 @@
 import React, { forwardRef } from "react";
 import { Post } from "..";
+import { FaRegHeart } from "react-icons/fa6";
+import { FaRegComment } from "react-icons/fa";
 
 interface PostItemProps {
   post: Post;
@@ -22,10 +24,16 @@ const PostItem = forwardRef<HTMLDivElement, PostItemProps>(({ post }, ref) => (
         <p>{post.text}</p>
       </div>
       <div className="home-page__post-footer">
-        <span className="home-page__post-likes">Likes: {post.likes}</span>
-        <span className="home-page__post-comments">
-          Comments: {post.comments.length}
-        </span>
+        <div className="home-page__post-likes" style={{ display: "flex" }}>
+          <FaRegHeart />
+          {post.likes}
+
+          <div></div>
+        </div>
+        <div className="home-page__post-comments">
+          <FaRegComment />
+          {post.comments.length}
+        </div>
       </div>
     </div>
   </div>

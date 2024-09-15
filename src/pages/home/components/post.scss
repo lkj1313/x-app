@@ -85,3 +85,23 @@
   color: white;
   font-weight: bold;
 }
+.home-page__post-footer {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+}
+
+.home-page__post-likes,
+.home-page__post-comments {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.home-page__post-likes:hover {
+  color: rgb(249, 24, 128);
+}
+
+.home-page__post-comments:hover {
+  color: rgb(29, 155, 240);
+}

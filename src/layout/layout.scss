@@ -7,19 +7,22 @@
 /// left
 .left-component {
   flex: 0.2;
-  padding: 30px 30px;
+  padding: 0 30px;
   position: relative;
+  height: inherit;
   display: flex;
   justify-content: center;
 }
 
 .left-component__icon-box {
   padding: 0;
-  height: 100dvh;
+  height: 500px;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 3px;
+  position: sticky;
+  top: 40px;
 }
 .left-component__logobutton {
   transition: background-color 0.3s ease, box-shadow 0.3s ease; /* 부드러운 전환 효과 */

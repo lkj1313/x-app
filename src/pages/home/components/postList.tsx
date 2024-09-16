@@ -27,7 +27,7 @@ const PostList: React.FC<PostListProps> = ({
             key={post.id}
             post={post}
             ref={isLastPost ? lastPostRef : null}
-            handleLike={handleLike} // 마지막 게시글에 ref 전달
+            handleLike={handleLike}
           />
         );
       })}

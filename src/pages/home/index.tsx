@@ -19,11 +19,12 @@ import {
 import PostList from "./components/postList"; // 게시물 목록 컴포넌트
 import PostInput from "./components/postInput"; // 게시물 작성 컴포넌트
 import Tabs from "./components/tabs"; // 탭 내비게이션 컴포넌트
-import { incrementFirebaseLikeCount } from "../../firebase/firebaseService";
+import { toggleLikeOnPost } from "../../firebase/firebaseService";
 
 export interface Post {
   id?: string;
   text: string;
+  likedBy: string[]; // 좋아요를 누른 사용자들의 ID 목록
   likes: number;
   comments: any[];
   author: {
@@ -71,6 +72,7 @@ const HomePage = () => {
         const docRef = await addDoc(collection(db, "posts"), {
           text: post.text,
           likes: 0,
+          likedBy: [],
           comments: [],
           author: {
             username: post.usernickname,
@@ -86,6 +88,7 @@ const HomePage = () => {
             id: docRef.id,
             text: post.text,
             likes: 0,
+            likedBy: [],
             comments: [],
             author: {
               username: post.usernickname,
@@ -140,6 +143,41 @@ const HomePage = () => {
     []
   );
 
+  const handleLike = async (postId: string) => {
+    // postId가 string 타입이므로, undefined가 아닐 경우만 처리
+    if (!postId) return;
+
+    const post = posts.find((post) => post.id === postId); // argument로 온 postId와 post.id가 같은 요소 찾기
+    const userHasLiked =
+      Array.isArray(post?.likedBy) && post.likedBy.includes(user?.uid || "");
+
+    try {
+      // user.uid가 undefined일 수 있으므로, 옵셔널 체이닝으로 처리
+      if (!user?.uid) {
+        console.error("User is not logged in or has no valid UID.");
+        return;
+      }
+
+      await toggleLikeOnPost(postId, user.uid, userHasLiked);
+
+      // 상태에서도 좋아요 수 업데이트
+      setPosts((prevPosts) =>
+        prevPosts.map((post) =>
+          post.id === postId
+            ? {
+                ...post,
+                likes: userHasLiked ? post.likes - 1 : post.likes + 1, // 좋아요 여부에 따라 증가 또는 감소
+                likedBy: userHasLiked
+                  ? post.likedBy.filter((uid) => uid !== user.uid) // 이미 좋아요를 눌렀다면 유저의 UID 제거
+                  : [...post.likedBy, user.uid], // 좋아요를 추가한다면 유저의 UID 추가
+              }
+            : post
+        )
+      );
+    } catch (error) {
+      console.error("Error handling like: ", error);
+    }
+  };
   // IntersectionObserver를 통한 무한 스크롤 처리
   const lastPostRef = useCallback(
     (node: HTMLDivElement) => {
@@ -157,23 +195,6 @@ const HomePage = () => {
     },
     [loading, hasMore, lastVisibleDoc, fetchPosts]
   );
-  const handleLike = async (postId: string) => {
-    try {
-      // Firestore에서 좋아요 수 업데이트
-      await incrementFirebaseLikeCount(postId);
-
-      // 상태에서도 좋아요 수 업데이트
-      setPosts((prevPosts) =>
-        prevPosts.map((post) =>
-          post.id === postId
-            ? { ...post, likes: post.likes + 1 } // likes 수 1 증가
-            : post
-        )
-      );
-    } catch (error) {
-      console.error("Error handling like: ", error);
-    }
-  };
 
   // 컴포넌트가 마운트될 때 게시물 초기 로드
   useEffect(() => {

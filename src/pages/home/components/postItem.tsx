@@ -24,6 +24,7 @@ const PostItem = forwardRef<HTMLDivElement, PostItemProps>(
             {post.author.username}
           </span>
           <p>{post.text}</p>
+          <img style={{ width: "100%" }} src={post.imageUrl ?? undefined}></img>
         </div>
         <div className="home-page__post-footer">
           <div

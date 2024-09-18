@@ -20,12 +20,13 @@ import PostList from "./components/postList"; // 게시물 목록 컴포넌트
 import PostInput from "./components/postInput"; // 게시물 작성 컴포넌트
 import Tabs from "./components/tabs"; // 탭 내비게이션 컴포넌트
 import { toggleLikeOnPost } from "../../firebase/firebaseService";
+import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
 
 export interface Post {
   id?: string;
   text: string;
   likedBy: string[]; // 좋아요를 누른 사용자들의 ID 목록
-
+  imageUrl?: string | null; // 이미지 URL, 없을 수 있으므로 선택적
   comments: any[];
   author: {
     username?: string;
@@ -57,7 +58,7 @@ const HomePage = () => {
   const user = useSelector((state: RootState) => state.auth.user);
 
   // 게시물 작성 핸들러
-  const handlePost = async (text: string) => {
+  const handlePost = async (text: string, image: File | null) => {
     if (text.trim()) {
       // 공백이 아닌 경우에만 실행
       const post = {
@@ -66,12 +67,29 @@ const HomePage = () => {
         profilePicture: user?.profilePicture,
         userEmail: user?.email,
       };
+      let imageUrl = null; // 이미지 URL을 저장할 변수
+      // 이미지가 선택된 경우 Firebase Storage에 업로드
+      if (image) {
+        const storage = getStorage(); // Firebase Storage 인스턴스 생성
+        const storageRef = ref(storage, `posts/${image.name}-${Date.now()}`); // 고유한 파일 경로 설정
+
+        try {
+          // 이미지를 Firebase Storage에 업로드
+          const snapshot = await uploadBytes(storageRef, image);
+
+          // 업로드된 이미지의 URL 가져오기
+          imageUrl = await getDownloadURL(snapshot.ref);
+        } catch (error) {
+          console.error("Error uploading image: ", error);
+          return; // 이미지 업로드에 실패하면 게시물 작성 중단
+        }
+      }
 
       try {
         // Firebase Firestore에 새 게시물 추가
         const docRef = await addDoc(collection(db, "posts"), {
           text: post.text,
-
+          imageUrl: imageUrl || "", // 이미지 URL을 Firestore에 저장 (이미지가 없으면 빈 문자열)
           likedBy: [],
           comments: [],
           author: {
@@ -79,7 +97,7 @@ const HomePage = () => {
             profilePicture: post.profilePicture,
             userEmail: post.userEmail,
           },
-          createdAt: Timestamp.now(), // 현재 시간으로 생성 시간 설정
+          createdAt: Timestamp.now(),
         });
 
         // 새 게시물을 기존 목록의 상단에 추가
@@ -87,7 +105,7 @@ const HomePage = () => {
           {
             id: docRef.id,
             text: post.text,
-
+            imageUrl,
             likedBy: [],
             comments: [],
             author: {

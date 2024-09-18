@@ -1,17 +1,13 @@
-import { useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { setHome, setExplore } from "../store/mainComponentSlice";
 import { IoHomeOutline } from "react-icons/io5";
-import { IoHomeSharp } from "react-icons/io5";
-import { MdExplore } from "react-icons/md";
+
 import { MdOutlineExplore } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
+import { useSelector, UseSelector } from "react-redux";
+import { RootState } from "../store/store";
 const Left = () => {
   const navigate = useNavigate();
 
-  const handleHomeIconClick = () => {
-    navigate("/");
-  };
+  const user = useSelector((state: RootState) => state.auth.user);
 
   return (
     <div className="left-component" style={{ borderRight: "1px solid gray" }}>
@@ -47,8 +43,14 @@ const Left = () => {
           <MdOutlineExplore style={{ fontSize: "40px" }} />{" "}
           <div className="left-component__explore-text">Explore</div>
         </div>
+        <div className="left-component_logout-button">
+          <img src={user?.profilePicture} />
+          <div>
+            <div style={{ whiteSpace: "nowrap" }}>{user?.nickname}</div>{" "}
+            <div style={{ fontWeight: "bold" }}>LOGOUT</div>
+          </div>
+        </div>
       </nav>
-      {/* 로고 */}
     </div>
   );
 };

@@ -8,23 +8,24 @@
 /// left
 .left-component {
   flex: 0.2;
+
   max-width: 500px;
   padding: 0 30px;
   position: relative;
-  height: inherit;
+
   display: flex;
   justify-content: center;
 }
 
 .left-component__icon-box {
-  padding: 0;
-  height: 500px;
+  position: sticky;
+  height: 300px;
+  top: 20px;
+
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 3px;
-  position: sticky;
-  top: 30px;
 }
 .left-component__logobutton {
   transition: background-color 0.3s ease, box-shadow 0.3s ease; /* 부드러운 전환 효과 */
@@ -53,9 +54,25 @@
     margin-left: 10px;
   }
 }
-
+.left-component_logout-button {
+  cursor: pointer;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease; /* 부드러운 전환 효과 */
+  width: 150px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  position: fixed;
+  bottom: 20px;
+  gap: 10px;
+  border-radius: 75px;
+  img {
+    height: 50px;
+    border-radius: 25px;
+  }
+}
 .left-component__homebutton:hover,
-.left-component__explorebutton:hover {
+.left-component__explorebutton:hover,
+.left-component_logout-button:hover {
   background-color: #333333; /* 호버 시 살짝 밝아진 배경색 */
   box-shadow: 0 0 8px rgba(0, 0, 0, 0.3); /* 미묘한 그림자 효과 */
 }

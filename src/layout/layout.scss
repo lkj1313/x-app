@@ -1,12 +1,14 @@
 .layout-container {
-  width: 100%;
+  max-width: 1800px;
 
   display: flex;
+  justify-content: center;
 }
 
 /// left
 .left-component {
   flex: 0.2;
+  max-width: 500px;
   padding: 0 30px;
   position: relative;
   height: inherit;
@@ -62,6 +64,8 @@
 
 .right-component {
   border-left: 1px solid gray;
+  max-width: 500px;
+  flex: 0.2;
 }
 
 @media (max-width: 850px) {

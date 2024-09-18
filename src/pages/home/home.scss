@@ -1,7 +1,8 @@
 .home-page {
   display: flex;
   flex: 0.6;
-  width: 100%;
+  max-width: 600px;
+
   flex-direction: column;
   height: 100%;
 }

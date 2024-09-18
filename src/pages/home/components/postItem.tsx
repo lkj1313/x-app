@@ -32,7 +32,7 @@ const PostItem = forwardRef<HTMLDivElement, PostItemProps>(
             onClick={() => post.id && handleLike(post.id)}
           >
             <FaRegHeart />
-            {post.likes}
+            {post.likedBy.length}
 
             <div></div>
           </div>

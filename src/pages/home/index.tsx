@@ -25,7 +25,7 @@ export interface Post {
   id?: string;
   text: string;
   likedBy: string[]; // 좋아요를 누른 사용자들의 ID 목록
-  likes: number;
+
   comments: any[];
   author: {
     username?: string;
@@ -71,7 +71,7 @@ const HomePage = () => {
         // Firebase Firestore에 새 게시물 추가
         const docRef = await addDoc(collection(db, "posts"), {
           text: post.text,
-          likes: 0,
+
           likedBy: [],
           comments: [],
           author: {
@@ -87,7 +87,7 @@ const HomePage = () => {
           {
             id: docRef.id,
             text: post.text,
-            likes: 0,
+
             likedBy: [],
             comments: [],
             author: {
@@ -104,7 +104,7 @@ const HomePage = () => {
       }
     }
   };
-  console.log(posts);
+
   // 게시물 목록 불러오기 핸들러 (페이징 포함)
   const fetchPosts = useCallback(
     async (lastVisibleDoc: DocumentSnapshot | null = null) => {
@@ -149,7 +149,7 @@ const HomePage = () => {
 
     const post = posts.find((post) => post.id === postId); // argument로 온 postId와 post.id가 같은 요소 찾기
     const userHasLiked =
-      Array.isArray(post?.likedBy) && post.likedBy.includes(user?.uid || "");
+      Array.isArray(post?.likedBy) && post.likedBy.includes(user?.uid || ""); // true
 
     try {
       // user.uid가 undefined일 수 있으므로, 옵셔널 체이닝으로 처리
@@ -166,7 +166,7 @@ const HomePage = () => {
           post.id === postId
             ? {
                 ...post,
-                likes: userHasLiked ? post.likes - 1 : post.likes + 1, // 좋아요 여부에 따라 증가 또는 감소
+
                 likedBy: userHasLiked
                   ? post.likedBy.filter((uid) => uid !== user.uid) // 이미 좋아요를 눌렀다면 유저의 UID 제거
                   : [...post.likedBy, user.uid], // 좋아요를 추가한다면 유저의 UID 추가

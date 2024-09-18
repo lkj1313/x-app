@@ -1,5 +1,18 @@
-import { doc, updateDoc, arrayUnion, arrayRemove } from "firebase/firestore";
-import { db } from "../../firebase";
+import {
+  collection,
+  query,
+  orderBy,
+  startAfter,
+  limit,
+  getDocs,
+  doc,
+  updateDoc,
+  arrayUnion,
+  arrayRemove,
+  DocumentSnapshot,
+} from "firebase/firestore";
+import { db } from "../../firebase"; // Firebase 초기화 관련 코드
+import { Post } from "../pages/home";
 
 // 좋아요 추가 및 취소 핸들러
 export const toggleLikeOnPost = async (

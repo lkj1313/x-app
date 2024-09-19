@@ -2,13 +2,22 @@ import { IoHomeOutline } from "react-icons/io5";
 
 import { MdOutlineExplore } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
-import { useSelector, UseSelector } from "react-redux";
+import { useDispatch, useSelector, UseSelector } from "react-redux";
 import { RootState } from "../store/store";
+import { logout } from "../store/authSlice";
 const Left = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const user = useSelector((state: RootState) => state.auth.user);
-
+  const handleLogout = () => {
+    const isLogout = confirm("정말 로그아웃 하시겠습니까?");
+    if (isLogout) {
+      dispatch(logout());
+    } else {
+      return;
+    }
+  };
   return (
     <div className="left-component" style={{ borderRight: "1px solid gray" }}>
       <nav className="left-component__icon-box">
@@ -43,7 +52,7 @@ const Left = () => {
           <MdOutlineExplore style={{ fontSize: "40px" }} />{" "}
           <div className="left-component__explore-text">Explore</div>
         </div>
-        <div className="left-component_logout-button">
+        <div className="left-component_logout-button" onClick={handleLogout}>
           <img src={user?.profilePicture} />
           <div>
             <div style={{ whiteSpace: "nowrap" }}>{user?.nickname}</div>{" "}

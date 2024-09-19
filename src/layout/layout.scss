@@ -18,8 +18,8 @@
 }
 
 .left-component__icon-box {
-  position: sticky;
-  height: 300px;
+  position: fixed;
+  height: 100%;
   top: 20px;
 
   display: flex;
@@ -54,7 +54,7 @@
     margin-left: 10px;
   }
 }
-.left-component_logout-button {
+.left-component_logout-container {
   cursor: pointer;
   transition: background-color 0.3s ease, box-shadow 0.3s ease; /* 부드러운 전환 효과 */
   width: 150px;
@@ -72,9 +72,13 @@
 }
 .left-component__homebutton:hover,
 .left-component__explorebutton:hover,
-.left-component_logout-button:hover {
+.left-component_logout-container:hover {
   background-color: #333333; /* 호버 시 살짝 밝아진 배경색 */
   box-shadow: 0 0 8px rgba(0, 0, 0, 0.3); /* 미묘한 그림자 효과 */
+}
+.logout-container__profile-container {
+  display: flex;
+  gap: 10px;
 }
 
 //right
@@ -117,6 +121,10 @@
     align-items: center;
     height: 50px;
     justify-content: space-between;
+    position: fixed;
+    bottom: 0;
+    top: auto;
+    border-top: 1px solid gray;
   }
   .left-component__logobutton {
     transition: background-color 0.3s ease, box-shadow 0.3s ease; /* 부드러운 전환 효과 */
@@ -133,7 +141,8 @@
   }
 
   .left-component__homebutton,
-  .left-component__explorebutton {
+  .left-component__explorebutton,
+  .left-component__logout-container {
     cursor: pointer;
     transition: background-color 0.3s ease, box-shadow 0.3s ease; /* 부드러운 전환 효과 */
     width: 50px;
@@ -145,25 +154,20 @@
       margin: 0;
     }
   }
+  .left-component__logout-container {
+    cursor: pointer;
+    position: fixed;
+    bottom: 20px;
+    gap: 10px;
+    position: static;
+  }
+
   .left-component__home-text,
   .left-component__explore-text {
     display: none;
   }
-  .left-component_logout-button {
-    cursor: pointer;
-    transition: background-color 0.3s ease, box-shadow 0.3s ease; /* 부드러운 전환 효과 */
-    width: 150px;
-    height: 50px;
-    display: flex;
-    align-items: center;
-    position: fixed;
-    bottom: 20px;
-    gap: 10px;
-    display: none;
 
-    img {
-      height: 40px;
-      border-radius: 25px;
-    }
+  .logout-container__profile-container {
+    display: none;
   }
 }

@@ -84,11 +84,10 @@ const PostInput = ({
       </div>
       {selectedImage && (
         <div className="home-page__image-preview">
-          <p>Image Preview:</p>
           <img
             src={URL.createObjectURL(selectedImage)}
             alt="preview"
-            style={{ maxWidth: "50%", height: "auto" }}
+            style={{ maxWidth: "100%", height: "auto" }}
           />
         </div>
       )}

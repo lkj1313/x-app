@@ -42,7 +42,8 @@
 }
 
 .left-component__homebutton,
-.left-component__explorebutton {
+.left-component__explorebutton,
+.left-component__profilebutton {
   cursor: pointer;
   transition: background-color 0.3s ease, box-shadow 0.3s ease; /* 부드러운 전환 효과 */
   width: 150px;
@@ -54,7 +55,7 @@
     margin-left: 10px;
   }
 }
-.left-component_logout-container {
+.left-component__logout-container {
   cursor: pointer;
   transition: background-color 0.3s ease, box-shadow 0.3s ease; /* 부드러운 전환 효과 */
   width: 150px;
@@ -72,15 +73,19 @@
 }
 .left-component__homebutton:hover,
 .left-component__explorebutton:hover,
-.left-component_logout-container:hover {
+.left-component__logout-container:hover,
+.left-component__profilebutton:hover {
   background-color: #333333; /* 호버 시 살짝 밝아진 배경색 */
   box-shadow: 0 0 8px rgba(0, 0, 0, 0.3); /* 미묘한 그림자 효과 */
 }
 .logout-container__profile-container {
   display: flex;
+
   gap: 10px;
 }
-
+.logout-container__logout-button {
+  display: none;
+}
 //right
 
 .right-component {
@@ -89,6 +94,7 @@
   flex: 0.2;
 }
 
+// width 850px 이하일때
 @media (max-width: 850px) {
   .layout-container {
     flex-direction: column; /* 세로 정렬 */
@@ -142,7 +148,8 @@
 
   .left-component__homebutton,
   .left-component__explorebutton,
-  .left-component__logout-container {
+  .left-component__logout-container,
+  .left-component__profilebutton {
     cursor: pointer;
     transition: background-color 0.3s ease, box-shadow 0.3s ease; /* 부드러운 전환 효과 */
     width: 50px;
@@ -156,18 +163,21 @@
   }
   .left-component__logout-container {
     cursor: pointer;
-    position: fixed;
-    bottom: 20px;
+
     gap: 10px;
     position: static;
   }
 
   .left-component__home-text,
-  .left-component__explore-text {
+  .left-component__explore-text,
+  .left-component__profile-text {
     display: none;
   }
 
   .logout-container__profile-container {
     display: none;
+  }
+  .logout-container__logout-button {
+    display: block;
   }
 }

@@ -15,6 +15,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "./store/store";
 import store from "./store/store";
 import { Provider } from "react-redux";
+import ProfilePage from "./pages/profile";
 
 function App() {
   const location = useLocation();
@@ -44,7 +45,7 @@ function App() {
           <Route path="/posts/:id" element={<h1>Post 상세 페이지</h1>} />
           <Route path="/posts/new" element={<h1>새 Post 페이지</h1>} />
           <Route path="/posts/edit" element={<h1>Post 수정 페이지</h1>} />
-          <Route path="/posts/profile" element={<h1>프로필 페이지</h1>} />
+          <Route path="/profile" element={<ProfilePage />} />
           <Route
             path="/posts/profile/edit"
             element={<h1>프로필 수정 페이지</h1>}

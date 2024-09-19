@@ -1,7 +1,8 @@
 import { IoHomeOutline } from "react-icons/io5";
-
 import { MdOutlineExplore } from "react-icons/md";
 import { IoIosLogOut } from "react-icons/io";
+import { IoPersonOutline } from "react-icons/io5";
+
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector, UseSelector } from "react-redux";
 import { RootState } from "../store/store";
@@ -52,6 +53,15 @@ const Left = () => {
           {" "}
           <MdOutlineExplore style={{ fontSize: "40px" }} />{" "}
           <div className="left-component__explore-text">Explore</div>
+        </div>
+        <div
+          className="left-component__profilebutton"
+          onClick={() => {
+            navigate("/profile");
+          }}
+        >
+          <IoPersonOutline style={{ fontSize: "40px" }} />
+          <div className="left-component__profile-text">Profile</div>
         </div>
         <div
           className="left-component__logout-container"

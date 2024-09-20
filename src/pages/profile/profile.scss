@@ -48,21 +48,30 @@
   display: flex;
   justify-content: space-between;
   width: 100%;
+  height: 50px;
+  position: relative;
   img {
-    height: 50px;
-    border-radius: 25px;
+    height: 100px;
+    border-radius: 50px;
+    cursor: pointer;
   }
-  button {
+  .profile-img-div__setup-button {
     height: 50px;
     border-radius: 30px;
     background-color: transparent;
+    display: flex;
+    align-items: center;
     color: white;
-    padding: 3px;
+    padding: 19px;
     font-size: 15px;
     font-weight: bold;
     border: 1px solid gray;
     cursor: pointer;
   }
+}
+.profile-img-div__profile-picture-container {
+  position: relative;
+  top: -120%;
 }
 
 .profile-container__profile-detail-div {

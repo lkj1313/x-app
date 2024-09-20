@@ -16,6 +16,7 @@ import { RootState } from "./store/store";
 import store from "./store/store";
 import { Provider } from "react-redux";
 import ProfilePage from "./pages/profile";
+import PhotoPage from "./pages/photo";
 
 function App() {
   const location = useLocation();
@@ -37,7 +38,7 @@ function App() {
         {/* Layout이 필요 없는 경로들 */}
         <Route path="/users/login" element={<LoginPage />} />
         <Route path="*" element={<Navigate replace to="/" />} />
-
+        <Route path="/photo" element={<PhotoPage />} />
         {/* Layout이 필요한 경로들 */}
         <Route element={<Layout />}>
           <Route path="/" element={<HomePage />} />

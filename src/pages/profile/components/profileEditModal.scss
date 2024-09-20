@@ -1,0 +1,28 @@
+.react-modal__close-button {
+  cursor: pointer;
+}
+.react-modal-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.react-modal__close-button {
+  display: flex;
+  justify-content: end;
+  button {
+    cursor: pointer;
+    background-color: transparent;
+    color: white;
+    font-size: 16px;
+    border: none;
+  }
+}
+.react-modal__profile-img-box {
+  display: flex;
+  justify-content: center;
+  img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50px;
+  }
+}

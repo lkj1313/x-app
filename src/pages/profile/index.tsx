@@ -6,10 +6,14 @@ import { useEffect, useState } from "react";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { db } from "../../../firebase";
 import { useNavigate } from "react-router-dom";
+import ProfileEditModal from "./components/profileEditModal";
+
 export default function ProfilePage() {
   const user = useSelector((state: RootState) => state.auth.user);
   const navigate = useNavigate();
   const [userPosts, setUserPosts] = useState<Post[]>([]);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const onCloseProfileEditModal = () => setIsOpen(false);
   const fetchUserPosts = async () => {
     if (!user) return;
     try {
@@ -27,12 +31,19 @@ export default function ProfilePage() {
       console.log("error", error);
     }
   };
+
   useEffect(() => {
     fetchUserPosts(); // 컴포넌트가 마운트될 때 사용자 글 불러오기
   }, [user]);
   console.log(userPosts);
   return (
     <div className="profile-page__container">
+      {isOpen ? (
+        <ProfileEditModal
+          isOpen={isOpen}
+          onCloseProfileEditModal={onCloseProfileEditModal}
+        />
+      ) : null}
       <header className="profile-page__header">
         <div className="header__back-button-container">
           <div className="back-button-container__back-button">
@@ -53,7 +64,12 @@ export default function ProfilePage() {
             >
               <img src={user?.profilePicture}></img>
             </div>
-            <button className="profile-img-div__setup-button">
+            <button
+              className="profile-img-div__setup-button"
+              onClick={() => {
+                setIsOpen(true);
+              }}
+            >
               set up profile
             </button>
           </div>

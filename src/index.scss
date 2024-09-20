@@ -21,13 +21,15 @@ body {
 }
 
 @import "./components/loading.scss";
-@import "./pages/login/login.scss";
+
+@import "./layout/layout.scss";
 
 @import "./pages/home/home.scss";
 @import "./pages/home/components/post.scss";
 
-@import "./layout/layout.scss";
-
-@import "./pages/search/search.scss";
 @import "./pages/profile/profile.scss";
+@import "./pages/profile/components/profileEditModal.scss";
+
 @import "./pages/photo/photo.scss";
+@import "./pages/login/login.scss";
+@import "./pages/search/search.scss";

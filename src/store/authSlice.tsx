@@ -35,8 +35,15 @@ const authSlice = createSlice({
       // 쿠키에서 유저 정보를 삭제
       Cookies.remove("user");
     },
+    updateProfilePicture(state, action: PayloadAction<string>) {
+      if (state.user) {
+        state.user.profilePicture = action.payload;
+        // 쿠키에도 업데이트된 프로필 사진 반영
+        Cookies.set("user", JSON.stringify(state.user), { expires: 1 });
+      }
+    },
   },
 });
 
-export const { login, logout } = authSlice.actions;
+export const { login, logout, updateProfilePicture } = authSlice.actions;
 export default authSlice.reducer;

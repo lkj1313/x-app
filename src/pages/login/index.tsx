@@ -31,6 +31,7 @@ export default function LoginPage() {
           uid: userData.uid,
           nickname: userData.nickname,
           profilePicture: userData.profilePicture || "/profile.jpg",
+          createdAt: new Date().toISOString(), // createdAt을 현재 시간으로 설정
         })
       );
 

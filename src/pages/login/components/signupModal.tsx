@@ -1,5 +1,5 @@
 import { auth } from "../../../../firebase";
-import { doc, getDoc, setDoc } from "firebase/firestore";
+import { doc, getDoc, serverTimestamp, setDoc } from "firebase/firestore";
 import React, { useState, useEffect } from "react";
 import ReactModal from "react-modal";
 import { useNavigate } from "react-router-dom";
@@ -32,7 +32,6 @@ const SignupModal: React.FC<SignupModalProps> = ({
   const [nicknameError, setNicknameError] = useState("");
   const [signupError, setSignupError] = useState("");
   const navigate = useNavigate();
-  const dispatch = useDispatch();
 
   useEffect(() => {
     if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
@@ -94,6 +93,7 @@ const SignupModal: React.FC<SignupModalProps> = ({
           email: user.email,
           nickname: nickname,
           profilePicture: "/profile.jpg",
+          createdAt: new Date().toISOString(), // createdAt을 현재 시간으로 설정
         });
 
         onRequestClose(); // 회원가입 성공 시 모달 닫기

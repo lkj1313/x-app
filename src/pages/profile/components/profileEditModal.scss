@@ -26,3 +26,16 @@
     border-radius: 50px;
   }
 }
+
+.react-modal__nickname-email-container {
+  margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 10px;
+  div {
+    display: flex;
+    justify-content: center;
+    user-select: none;
+  }
+}

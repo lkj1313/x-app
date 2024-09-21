@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { Timestamp } from "firebase/firestore";
 import Cookies from "js-cookie"; // js-cookie 라이브러리 import
 
 export interface User {
@@ -6,6 +7,7 @@ export interface User {
   uid: string;
   nickname?: string;
   profilePicture?: string;
+  createdAt: string;
 }
 
 interface AuthState {

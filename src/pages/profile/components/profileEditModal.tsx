@@ -98,6 +98,12 @@ const ProfileEditModal: React.FC<ProfileEditModalProps> = ({
             accept="image/*" // 이미지 파일만 허용
           />
         </main>
+        <footer>
+          <div className="react-modal__nickname-email-container">
+            <div>{user?.nickname}</div>
+            <div>{user?.email}</div>
+          </div>
+        </footer>
       </div>
     </ReactModal>
   );

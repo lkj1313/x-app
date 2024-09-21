@@ -7,6 +7,7 @@ import { collection, getDocs, query, where } from "firebase/firestore";
 import { db } from "../../../firebase";
 import { useNavigate } from "react-router-dom";
 import ProfileEditModal from "./components/profileEditModal";
+import { CiCalendar } from "react-icons/ci";
 
 export default function ProfilePage() {
   const user = useSelector((state: RootState) => state.auth.user);
@@ -14,6 +15,10 @@ export default function ProfilePage() {
   const [userPosts, setUserPosts] = useState<Post[]>([]);
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const onCloseProfileEditModal = () => setIsOpen(false);
+  const handleBackClick = () => {
+    navigate(-1); // 뒤로 가기 (이전 페이지로 이동)
+  };
+  const formattedDate = user!.createdAt.split("T")[0];
   const fetchUserPosts = async () => {
     if (!user) return;
     try {
@@ -46,7 +51,10 @@ export default function ProfilePage() {
       ) : null}
       <header className="profile-page__header">
         <div className="header__back-button-container">
-          <div className="back-button-container__back-button">
+          <div
+            className="back-button-container__back-button"
+            onClick={handleBackClick}
+          >
             <IoArrowBackSharp style={{ fontSize: "30px" }} />
           </div>
           <div className="back-button-container__profile-container">
@@ -77,6 +85,10 @@ export default function ProfilePage() {
             <div className="prfile-detail-div__nickname">{user?.nickname}</div>
             <div>{user?.email}</div>
           </div>
+          <div className="profile-container__id-timestamp">
+            <CiCalendar /> Joined {formattedDate}
+          </div>
+          <div>aaaaaa</div>
         </div>
       </header>
     </div>

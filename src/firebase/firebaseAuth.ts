@@ -1,6 +1,6 @@
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { auth, db } from "../../firebase"; // firebase 설정 파일에서 auth와 db 가져오기
-import { doc, getDoc, setDoc } from "firebase/firestore";
+import { doc, getDoc, setDoc, serverTimestamp } from "firebase/firestore";
 
 // 유저 정보를 구글로 로그인한 후 데이터베이스에 저장하는 함수
 export const googleLogin = async () => {
@@ -25,6 +25,7 @@ export const googleLogin = async () => {
         uid: user.uid,
         nickname: user.displayName || "Anonymous",
         profilePicture: user.photoURL || "/profile.jpg",
+        createdAt: serverTimestamp(),
       };
       await setDoc(userDocRef, newUser);
       return newUser;

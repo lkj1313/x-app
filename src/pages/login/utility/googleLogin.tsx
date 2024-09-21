@@ -24,6 +24,7 @@ export const googleLogin = async () => {
         uid: user.uid,
         nickname: user.displayName || "Anonymous",
         profilePicture: user.photoURL || "/profile.jpg",
+        createdAt: new Date().toISOString(), // createdAt을 현재 시간으로 설정
       };
       await setDoc(userDocRef, newUser);
       return newUser;

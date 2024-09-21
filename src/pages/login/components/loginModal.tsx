@@ -73,6 +73,7 @@ const LoginModal: React.FC<LoginModalProps> = ({
             uid: user.uid,
             nickname: userData.nickname,
             profilePicture: userData.profilePicture,
+            createdAt: userData.createdAt,
           })
         );
 

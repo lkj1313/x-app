@@ -7,7 +7,7 @@
   height: 100%;
 }
 .profile-page__header {
-  position: sticky;
+  position: relative;
   top: 0;
 }
 .header__back-button-container {
@@ -82,4 +82,8 @@
 .prfile-detail-div__nickname {
   font-size: 20px;
   font-weight: bold;
+}
+.profile-container__id-timestamp {
+  display: flex;
+  gap: 10px;
 }

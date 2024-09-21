@@ -42,16 +42,13 @@ function App() {
         {/* Layout이 필요한 경로들 */}
         <Route element={<Layout />}>
           <Route path="/" element={<HomePage />} />
-          <Route path="/posts" element={<h1>Posts 페이지</h1>} />
-          <Route path="/posts/:id" element={<h1>Post 상세 페이지</h1>} />
-          <Route path="/posts/new" element={<h1>새 Post 페이지</h1>} />
-          <Route path="/posts/edit" element={<h1>Post 수정 페이지</h1>} />
+
           <Route path="/profile" element={<ProfilePage />} />
           <Route
             path="/posts/profile/edit"
             element={<h1>프로필 수정 페이지</h1>}
           />
-          <Route path="/notification" element={<h1>알림 페이지</h1>} />
+
           <Route path="/search" element={<SearchPage />} />
         </Route>
       </Routes>

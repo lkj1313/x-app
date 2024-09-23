@@ -6,6 +6,7 @@ import { useDispatch } from "react-redux";
 import { login } from "../../../store/authSlice";
 import { auth, db } from "../../../../firebase";
 import { doc, getDoc } from "firebase/firestore";
+import LoginForm from "./loginForm";
 
 interface LoginModalProps {
   isOpen: boolean;
@@ -125,95 +126,17 @@ const LoginModal: React.FC<LoginModalProps> = ({
       }}
     >
       {isOpen && (
-        <form onSubmit={handleSubmit}>
-          <button
-            type="button"
-            onClick={onRequestClose}
-            style={{
-              width: "30px",
-              fontSize: "30px",
-              cursor: "pointer",
-              backgroundColor: "transparent",
-              border: "none",
-            }}
-          >
-            x
-          </button>
-          <div
-            style={{
-              display: "flex",
-              width: "100%",
-              height: "50px",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            <img src="/X_logo.png" style={{ width: "50px" }} alt="logo" />
-          </div>
-          <div
-            style={{
-              width: "100%",
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              justifyContent: "center",
-              padding: "20px",
-            }}
-          >
-            <input
-              style={{
-                width: "100%",
-                height: "50px",
-                border: "1px solid black",
-                backgroundColor: "lightgray",
-                marginBottom: "5px",
-                color: "black",
-                padding: "10px",
-              }}
-              type="email"
-              placeholder="이메일"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-            {emailError && <div style={{ color: "red" }}>{emailError}</div>}
-
-            <input
-              style={{
-                width: "100%",
-                height: "50px",
-                border: "1px solid black",
-                backgroundColor: "lightgray",
-                padding: "10px",
-                marginBottom: "5px",
-              }}
-              type="password"
-              placeholder="비밀번호"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-            {passwordError && (
-              <div style={{ color: "red" }}>{passwordError}</div>
-            )}
-
-            <button
-              type="submit"
-              style={{
-                width: "100%",
-                height: "50px",
-                borderRadius: "30px",
-                backgroundColor: "#A9A9F5",
-                cursor: "pointer",
-              }}
-            >
-              로그인
-            </button>
-            {loginError && (
-              <div style={{ color: "red", marginTop: "10px" }}>
-                {loginError}
-              </div>
-            )}
-          </div>
-        </form>
+        <LoginForm
+          onSubmit={handleSubmit}
+          onRequestClose={onRequestClose}
+          email={email}
+          setEmail={setEmail}
+          emailError={emailError}
+          password={password}
+          setPassword={setPassword}
+          passwordError={passwordError}
+          loginError={loginError}
+        />
       )}
     </ReactModal>
   );

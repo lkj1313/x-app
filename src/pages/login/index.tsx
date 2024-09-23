@@ -17,7 +17,6 @@ export default function LoginPage() {
   const [showLogin, setShowLogin] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const provider = new GoogleAuthProvider();
 
   const handleGoogleLogin = async () => {
     try {

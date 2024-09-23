@@ -17,7 +17,6 @@ import store from "./store/store";
 import { Provider } from "react-redux";
 import ProfilePage from "./pages/profile";
 import PhotoPage from "./pages/photo";
-
 function App() {
   const location = useLocation();
   const navigate = useNavigate();
@@ -33,26 +32,24 @@ function App() {
   }, [isLoggedIn, navigate]);
 
   return (
-    <Provider store={store}>
-      <Routes location={location} key={location.pathname}>
-        {/* Layout이 필요 없는 경로들 */}
-        <Route path="/users/login" element={<LoginPage />} />
-        <Route path="*" element={<Navigate replace to="/" />} />
-        <Route path="/photo" element={<PhotoPage />} />
-        {/* Layout이 필요한 경로들 */}
-        <Route element={<Layout />}>
-          <Route path="/" element={<HomePage />} />
+    <Routes location={location} key={location.pathname}>
+      {/* Layout이 필요 없는 경로들 */}
+      <Route path="/users/login" element={<LoginPage />} />
+      <Route path="*" element={<Navigate replace to="/" />} />
+      <Route path="/photo" element={<PhotoPage />} />
+      {/* Layout이 필요한 경로들 */}
+      <Route element={<Layout />}>
+        <Route path="/" element={<HomePage />} />
 
-          <Route path="/profile" element={<ProfilePage />} />
-          <Route
-            path="/posts/profile/edit"
-            element={<h1>프로필 수정 페이지</h1>}
-          />
+        <Route path="/profile" element={<ProfilePage />} />
+        <Route
+          path="/posts/profile/edit"
+          element={<h1>프로필 수정 페이지</h1>}
+        />
 
-          <Route path="/search" element={<SearchPage />} />
-        </Route>
-      </Routes>
-    </Provider>
+        <Route path="/search" element={<SearchPage />} />
+      </Route>
+    </Routes>
   );
 }
 

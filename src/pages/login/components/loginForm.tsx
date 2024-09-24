@@ -1,5 +1,5 @@
 import React from "react";
-import { CloseButton } from "react-bootstrap";
+
 import InputField from "./inputFiled";
 import SubmitButton from "./submitButton";
 
@@ -27,18 +27,6 @@ const LoginForm: React.FC<LoginFormProps> = ({
 }) => {
   return (
     <form onSubmit={onSubmit}>
-      <CloseButton onClick={onRequestClose} />
-      <div
-        style={{
-          display: "flex",
-          width: "100%",
-          height: "50px",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        <img src="/X_logo.png" style={{ width: "50px" }} alt="logo" />
-      </div>
       <div
         style={{
           width: "100%",

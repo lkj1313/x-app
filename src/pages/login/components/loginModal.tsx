@@ -2,7 +2,8 @@ import React, { useState, useEffect } from "react";
 import ReactModal from "react-modal";
 
 import LoginForm from "./loginForm";
-import useLogin from "../hook/useLogin";
+import useLogin from "../utility/useLogin";
+import CloseButton from "./closeButton";
 
 interface LoginModalProps {
   isOpen: boolean;
@@ -10,11 +11,7 @@ interface LoginModalProps {
   setLoading: (loading: boolean) => void; // 로딩 상태 업데이트 함수 추가
 }
 
-const LoginModal: React.FC<LoginModalProps> = ({
-  isOpen,
-  onRequestClose,
-  setLoading,
-}) => {
+const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onRequestClose }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [emailError, setEmailError] = useState("");
@@ -75,19 +72,34 @@ const LoginModal: React.FC<LoginModalProps> = ({
         },
       }}
     >
-      {isOpen && (
-        <LoginForm
-          onSubmit={handleSubmit}
-          onRequestClose={onRequestClose}
-          email={email}
-          setEmail={setEmail}
-          emailError={emailError}
-          password={password}
-          setPassword={setPassword}
-          passwordError={passwordError}
-          loginError={loginError}
-        />
-      )}
+      <div>
+        <CloseButton onClick={onRequestClose} />
+        <div
+          style={{
+            display: "flex",
+            width: "100%",
+            height: "50px",
+            justifyContent: "center",
+            alignItems: "center",
+            marginTop: "30px",
+          }}
+        >
+          <img src="/X_logo.png" style={{ width: "50px" }} alt="logo" />
+        </div>
+        {isOpen && (
+          <LoginForm
+            onSubmit={handleSubmit}
+            onRequestClose={onRequestClose}
+            email={email}
+            setEmail={setEmail}
+            emailError={emailError}
+            password={password}
+            setPassword={setPassword}
+            passwordError={passwordError}
+            loginError={loginError}
+          />
+        )}
+      </div>
     </ReactModal>
   );
 };

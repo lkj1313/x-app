@@ -56,21 +56,3 @@ export const fetchPosts = async ({
     setHasMore(false); // 더 이상 불러올 데이터가 없음을 표시
   }
 };
-
-// // IntersectionObserver를 통한 무한 스크롤 처리
-// export const lastPostRef = useCallback(
-//   (node: HTMLDivElement) => {
-//     if (loading || !hasMore) return; // 로딩 중이거나 더 이상 가져올 데이터가 없으면 중단
-
-//     if (observerRef.current) observerRef.current.disconnect(); // 기존 관찰 해제
-
-//     observerRef.current = new IntersectionObserver((entries) => {
-//       if (entries[0].isIntersecting) {
-//         fetchPosts(lastVisibleDoc); // 스크롤 끝에 도달하면 게시물 추가 로드
-//       }
-//     });
-
-//     if (node) observerRef.current.observe(node); // 새로운 노드 관찰 시작
-//   },
-//   [loading, hasMore, lastVisibleDoc, fetchPosts]
-// );

@@ -24,14 +24,7 @@ const PostList: React.FC<PostListProps> = ({
       {posts.map((post, index) => {
         // 마지막 게시글에만 lastPostRef를 전달
         const isLastPost = index === posts.length - 1;
-        return (
-          <PostItem
-            key={post.id}
-            post={post}
-            // ref={isLastPost ? lastPostRef : null}
-            onLike={onLike}
-          />
-        );
+        return <PostItem key={post.id} post={post} onLike={onLike} />;
       })}
     </div>
   );

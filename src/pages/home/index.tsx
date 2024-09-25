@@ -9,6 +9,7 @@ import { useSelector } from "react-redux";
 import { fetchPosts } from "./utility/fetchService";
 import { handleLike } from "./utility/likeService";
 import { RootState } from "../../store/store";
+import { useInfiniteScroll } from "./utility/useInfiniteScroll";
 
 export interface Post {
   id?: string;
@@ -49,7 +50,21 @@ const HomePage = () => {
 
     handleLike(postId, posts, setPosts, user); // user가 null이 아님을 보장
   };
-
+  // 게시물 불러오기 함수
+  const loadMorePosts = async () => {
+    if (!hasMore) return; // 더 불러올 데이터가 없으면 중단
+    await fetchPosts({
+      setPosts,
+      setLastVisibleDoc,
+      lastVisibleDoc,
+      setHasMore,
+    });
+  };
+  const lastPostRef = useInfiniteScroll({
+    hasMore,
+    fetchPosts: loadMorePosts,
+    lastVisibleDoc,
+  });
   // 컴포넌트가 마운트될 때 게시물 초기 로드
   useEffect(() => {
     fetchPosts({ setPosts, setLastVisibleDoc, lastVisibleDoc, setHasMore });
@@ -66,12 +81,8 @@ const HomePage = () => {
         setPosts={setPosts}
       />
       {/* 게시물 목록 컴포넌트 및 무한 스크롤 처리 */}
-      <PostList
-        onLike={handlePostLike}
-        // lastPostRef={lastPostRef}
-        posts={posts}
-        setPosts={setPosts}
-      />
+      <PostList onLike={handlePostLike} posts={posts} setPosts={setPosts} />
+      <div ref={lastPostRef}></div>
     </div>
   );
 };

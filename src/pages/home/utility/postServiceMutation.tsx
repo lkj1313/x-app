@@ -14,7 +14,7 @@ const usePostServiceMutation = (
     }: {
       text: string;
       img: File | null;
-      user: User | null;
+      user: User;
     }) => PostService(text, img, user, setPosts),
     onSuccess: () => {
       console.log("Post Success");

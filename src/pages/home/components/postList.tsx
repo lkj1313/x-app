@@ -4,15 +4,17 @@ import { Post } from "..";
 import { useEffect } from "react";
 
 interface PostListProps {
+  // lastPostRef: (node: HTMLDivElement) => void;
   posts: Post[];
-  lastPostRef: (node: HTMLDivElement) => void;
-  handleLike: (postId: string) => Promise<void>; // handleLike 타입 추가
+  onLike: (postId: string) => void; // 좋아요 클릭 시 호출될 함수
+  setPosts: React.Dispatch<React.SetStateAction<Post[]>>;
 }
 
 const PostList: React.FC<PostListProps> = ({
+  onLike,
+  // lastPostRef,
   posts,
-  lastPostRef,
-  handleLike,
+  setPosts,
 }) => {
   useEffect(() => {
     console.log("Updated posts in PostList:", posts);
@@ -26,8 +28,8 @@ const PostList: React.FC<PostListProps> = ({
           <PostItem
             key={post.id}
             post={post}
-            ref={isLastPost ? lastPostRef : null}
-            handleLike={handleLike}
+            // ref={isLastPost ? lastPostRef : null}
+            onLike={onLike}
           />
         );
       })}

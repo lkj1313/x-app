@@ -5,11 +5,11 @@ import { FaRegComment } from "react-icons/fa";
 
 interface PostItemProps {
   post: Post;
-  handleLike: (postId: string) => void; // handleLike 추가
+  onLike: (postId: string) => void; // 좋아요 클릭 시 호출될 함수
 }
 
 const PostItem = forwardRef<HTMLDivElement, PostItemProps>(
-  ({ post, handleLike }, ref) => (
+  ({ post, onLike }, ref) => (
     <div className="home-page__post-item" ref={ref}>
       <div className="home-page__post-author">
         <img
@@ -32,7 +32,7 @@ const PostItem = forwardRef<HTMLDivElement, PostItemProps>(
           <div
             className="home-page__post-likes"
             style={{ display: "flex" }}
-            onClick={() => post.id && handleLike(post.id)}
+            onClick={() => post.id && onLike(post.id)}
           >
             <FaRegHeart />
             {post.likedBy.length}

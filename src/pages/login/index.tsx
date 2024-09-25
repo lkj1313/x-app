@@ -14,6 +14,7 @@ export default function LoginPage() {
   const [showSignUp, setShowSignUp] = useState(false); // SignUpModal 상태 추가
   const [showLogin, setShowLogin] = useState(false);
   const { mutate: handleGoogleLogin, isPending } = useGoogleLoginMutation();
+  console.log(handleGoogleLogin);
 
   const handleSignUpClose = () => setShowSignUp(false);
   const handleSignUpShow = () => setShowSignUp(true);
@@ -53,7 +54,7 @@ export default function LoginPage() {
             <span className="login-page__subheadline">지금 가입하세요.</span>
             <button
               className="login-page__button"
-              onClick={() => handleGoogleLogin}
+              onClick={() => handleGoogleLogin()}
             >
               Google로 로그인
             </button>

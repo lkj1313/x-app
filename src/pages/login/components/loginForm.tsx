@@ -16,7 +16,7 @@ interface LoginFormProps {
 }
 const LoginForm: React.FC<LoginFormProps> = ({
   onSubmit,
-  onRequestClose,
+
   email,
   setEmail,
   emailError,

@@ -2,16 +2,18 @@ import { useEffect, useRef, useState } from "react";
 import { CiImageOn } from "react-icons/ci";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../store/store";
+import { User } from "../../../store/authSlice";
+import PostServiceMutation from "../utility/postServiceMutation";
 interface PostInputProps {
   textareaContext: string;
   onTextareaChange: (value: string) => void;
-  onPost: (text: string, image: File | null) => Promise<void>; // 반환 타입을 Promise<void>로 수정
+  setPosts: React.Dispatch<React.SetStateAction<any[]>>;
 }
 
 const PostInput = ({
   textareaContext,
   onTextareaChange,
-  onPost,
+  setPosts,
 }: PostInputProps) => {
   const handleTextareaChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     onTextareaChange(e.target.value); // 부모에게 상태 업데이트 요청
@@ -19,6 +21,8 @@ const PostInput = ({
   const [selectedImage, setSelectedImage] = useState<File | null>(null); // 이미지 파일 상태
 
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const user = useSelector((state: RootState) => state.auth.user);
+  const profileImg = user?.profilePicture;
 
   // autoResizeTextarea 함수를 컴포넌트 내에서 정의
   useEffect(() => {
@@ -30,8 +34,8 @@ const PostInput = ({
   }, [textareaContext]); // textareaContext가 변경될 때마다 실행
 
   const handlePost = () => {
-    if (textareaContext.trim()) {
-      onPost(textareaContext, selectedImage); // 글과 이미지를 함께 부모로 전달
+    if (textareaContext.trim() && !!user) {
+      onPost({ text: textareaContext, img: selectedImage, user }); // 글과 이미지를 함께 부모로 전달
       onTextareaChange(""); // 글 상태 초기화
       setSelectedImage(null); // 이미지 상태 초기화
     }
@@ -44,9 +48,7 @@ const PostInput = ({
       setSelectedImage(file); // 선택된 이미지 파일을 상태에 저장
     }
   };
-
-  const user = useSelector((state: RootState) => state.auth.user);
-  const profileImg = user?.profilePicture;
+  const { mutate: onPost, isPending } = PostServiceMutation(setPosts);
   return (
     <div className="home-page__post-container">
       <div className="home-page__profile-textare-container">

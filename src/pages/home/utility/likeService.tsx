@@ -1,4 +1,3 @@
-import { useSelector } from "react-redux";
 import { RootState } from "../../../store/store";
 import { toggleLikeOnPost } from "../../../firebase/firebaseService";
 import { Post } from "..";

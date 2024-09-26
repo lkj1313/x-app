@@ -1,7 +1,6 @@
-import { useSelector } from "react-redux";
 import { collection, addDoc, Timestamp } from "firebase/firestore";
 import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
-import { RootState } from "../../../store/store";
+
 import { db } from "../../../../firebase";
 import { User } from "../../../store/authSlice";
 

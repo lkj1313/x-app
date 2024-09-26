@@ -3,44 +3,35 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
 import { Post } from "../home";
 import { useEffect, useState } from "react";
-import { collection, getDocs, query, where } from "firebase/firestore";
-import { db } from "../../../firebase";
+
 import { useNavigate } from "react-router-dom";
 import ProfileEditModal from "./components/profileEditModal";
 import { CiCalendar } from "react-icons/ci";
+import { useFetchUserPostMutation } from "./utility/useFetchUserPostMutation";
 
 export default function ProfilePage() {
   const user = useSelector((state: RootState) => state.auth.user);
   const navigate = useNavigate();
   const [userPosts, setUserPosts] = useState<Post[]>([]);
+  console.log(userPosts);
+
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const onCloseProfileEditModal = () => setIsOpen(false);
   const handleBackClick = () => {
     navigate(-1); // 뒤로 가기 (이전 페이지로 이동)
   };
-  const formattedDate = user!.createdAt.split("T")[0];
-  const fetchUserPosts = async () => {
-    if (!user) return;
-    try {
-      const q = query(
-        collection(db, "posts"),
-        where("author.userEmail", "==", user.email)
-      );
-      const querySnapshot = await getDocs(q);
-      const postsData = querySnapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      })) as Post[];
-      setUserPosts(postsData);
-    } catch (error) {
-      console.log("error", error);
-    }
-  };
+  const formattedDate = user!.createdAt.split("T")[0]; // 아이디 생성 시간
+  const { mutate: useFetchUserPosts, isPending } = useFetchUserPostMutation({
+    setUserPosts,
+  });
 
   useEffect(() => {
-    fetchUserPosts(); // 컴포넌트가 마운트될 때 사용자 글 불러오기
-  }, [user]);
-  console.log(userPosts);
+    if (user) {
+      useFetchUserPosts(user);
+    }
+    console.log(userPosts);
+  }, []);
+
   return (
     <div className="profile-page__container">
       {isOpen ? (
@@ -88,7 +79,7 @@ export default function ProfilePage() {
           <div className="profile-container__id-timestamp">
             <CiCalendar /> Joined {formattedDate}
           </div>
-          <div>aaaaaa</div>
+          <div>{}</div>
         </div>
       </header>
     </div>

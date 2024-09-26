@@ -13,12 +13,6 @@ interface LoginVariables {
   password: string;
 }
 
-// 로그인 성공 시 반환되는 데이터 타입 정의
-interface LoginResponse {
-  user: User;
-  userData: DocumentData;
-}
-
 const useLogin = (onRequestClose: () => void) => {
   const [loginError, setLoginError] = useState<string>("");
   const navigate = useNavigate();

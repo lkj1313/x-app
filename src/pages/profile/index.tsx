@@ -1,20 +1,19 @@
-import { IoArrowBackSharp } from "react-icons/io5";
-import { CiCalendar } from "react-icons/ci";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
 import { Post } from "../home";
 import { useEffect, useState } from "react";
 
-import { useNavigate } from "react-router-dom";
 import ProfileEditModal from "./components/profileEditModal";
 
 import { useFetchUserPostMutation } from "./utility/useFetchUserPostMutation";
 import Header from "./components/header";
+import Main from "./components/main";
+import Tabs from "./components/tabs";
 
 export default function ProfilePage() {
   const user = useSelector((state: RootState) => state.auth.user);
-  const navigate = useNavigate();
   const [userPosts, setUserPosts] = useState<Post[]>([]);
+  const [activeTab, setActiveTab] = useState("posts");
 
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const onCloseProfileEditModal = () => setIsOpen(false);
@@ -39,6 +38,7 @@ export default function ProfilePage() {
         />
       ) : null}
       <Header onToggleOpen={setIsOpen} />
+      <Main currentTab={activeTab} onTabChange={setActiveTab} />
     </div>
   );
 }

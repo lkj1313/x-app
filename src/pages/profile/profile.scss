@@ -99,3 +99,45 @@
   display: flex;
   gap: 10px;
 }
+
+///main
+.profile-page__tabs {
+  display: flex;
+  width: 100%;
+  height: 50px;
+  border-bottom: 1px solid gray;
+  position: sticky;
+  top: 0; /* top을 기준으로 고정됨 */
+  z-index: 3;
+  background-color: rgba(0, 0, 0, 0.65);
+}
+
+.profile-page__tab {
+  flex: 0.5;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50px;
+  cursor: pointer;
+  position: relative;
+}
+
+.profile-page__tab::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background-color: transparent; /* 기본 상태에서 밑줄은 투명 */
+  transition: background-color 0.3s ease;
+}
+
+.profile-page__tab--active::after {
+  background-color: white; /* 활성화된 탭에 밑줄 추가 */
+}
+
+.profile-page__tab:hover {
+  background-color: #333333;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
+}

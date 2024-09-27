@@ -1,31 +1,42 @@
-import React from "react";
-import { useSelector } from "react-redux";
-import { RootState } from "../../../store/store";
-
-import { db } from "../../../../firebase";
-import { collection, getDocs, where, query } from "firebase/firestore";
+import {
+  collection,
+  where,
+  limit,
+  getDocs,
+  startAfter,
+  query,
+} from "firebase/firestore";
 import { Post } from "../../home";
+import { db } from "../../../../firebase"; // Firebase 초기화 파일 경로
 import { User } from "../../../store/authSlice";
 
-const useFetchUserPost = async (user: User) => {
-  if (!user) return [];
+const useFetchUserPost = async (user: User, lastPost?: Post) => {
+  let postsQuery;
 
-  try {
-    const q = query(
+  if (lastPost) {
+    // lastPost가 있을 때만 startAfter 적용
+    postsQuery = query(
       collection(db, "posts"),
-      where("author.userEmail", "==", user.email)
+      where("author.userEmail", "==", user.email),
+      limit(10),
+      startAfter(lastPost.createdAt)
     );
-    const querySnapshot = await getDocs(q);
-    const postsData = querySnapshot.docs.map((doc) => ({
-      id: doc.id,
-      ...doc.data(),
-    })) as Post[];
-
-    return postsData;
-  } catch (error) {
-    console.log("error", error);
-    return [];
+  } else {
+    // lastPost가 없으면 startAfter 없이 쿼리 생성
+    postsQuery = query(
+      collection(db, "posts"),
+      where("author.userEmail", "==", user.email),
+      limit(10)
+    );
   }
+
+  const querySnapshot = await getDocs(postsQuery);
+  const posts: Post[] = [];
+  querySnapshot.forEach((doc) => {
+    posts.push({ id: doc.id, ...doc.data() } as Post);
+  });
+
+  return posts;
 };
 
 export default useFetchUserPost;

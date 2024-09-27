@@ -9,9 +9,10 @@ export const useFetchUserPostMutation = ({
   setUserPosts: React.Dispatch<React.SetStateAction<Post[]>>;
 }) => {
   const mutation = useMutation({
-    mutationFn: (user: User) => useFetchUserPost(user), // 데이터를 가져오는 함수 호출
+    mutationFn: ({ user, lastPost }: { user: User; lastPost?: Post }) =>
+      useFetchUserPost(user, lastPost), // lastPost를 받아서 페이지네이션 처리
     onSuccess: (data: Post[]) => {
-      setUserPosts(data); // 성공 시 posts 상태 업데이트
+      setUserPosts((prevPosts) => [...prevPosts, ...data]); // 기존 데이터에 추가
     },
     onError: (error) => {
       console.error("Posts fetch failed:", error);

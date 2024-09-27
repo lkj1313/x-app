@@ -39,7 +39,6 @@ const HomePage = () => {
   );
   // 더 불러올 데이터가 있는지 여부
   const [hasMore, setHasMore] = useState(true);
-  // IntersectionObserver를 위한 ref 설정
 
   // 좋아요 처리 함수 호출
   const handlePostLike = (postId: string) => {

@@ -1,5 +1,6 @@
 import React from "react";
 import Tabs from "./tabs";
+import UserPostList from "./userPostList";
 interface MainProps {
   currentTab: string;
   onTabChange: (newTab: string) => void;
@@ -7,7 +8,12 @@ interface MainProps {
 const main: React.FC<MainProps> = ({ currentTab, onTabChange }) => {
   return (
     <div>
-      <Tabs currentTab={currentTab} onTabChange={onTabChange} />
+      <header>
+        <Tabs currentTab={currentTab} onTabChange={onTabChange} />
+      </header>
+      <main>
+        <UserPostList />
+      </main>
     </div>
   );
 };

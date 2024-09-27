@@ -9,11 +9,7 @@ interface PostListProps {
   setPosts: React.Dispatch<React.SetStateAction<Post[]>>;
 }
 
-const PostList: React.FC<PostListProps> = ({
-  onLike,
-
-  posts,
-}) => {
+const PostList: React.FC<PostListProps> = ({ onLike, posts }) => {
   useEffect(() => {
     console.log("Updated posts in PostList:", posts);
   }, [posts]);
